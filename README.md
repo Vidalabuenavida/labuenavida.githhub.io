@@ -1,34 +1,32 @@
 # La Buena Vida Handtekeninggenerator – GitHub Pages
 
-Alle bestanden staan rechtstreeks in de hoofdmap van de repository.
+## Bestanden in GitHub
 
-## Structuur
+Alle bestanden staan rechtstreeks in de hoofdmap:
 
-index.html
-logo.png
-banner-nl.jpg
-banner-fr.jpg
-.nojekyll
+- index.html
+- logo.png
+- banner-nl.jpg
+- banner-fr.jpg (indien gebruikt)
+- .nojekyll
 
-De banner FR is alleen nodig wanneer u een aparte Franse banner gebruikt.
+## Een wijziging publiceren
 
-## Eerste publicatie
+### Alleen tekst of instellingen gewijzigd
+Download het websitepakket en upload alleen de nieuwe `index.html` naar GitHub.
+Uw bestaande afbeeldingen blijven gewoon staan.
 
-1. Maak een GitHub repository, bijvoorbeeld `handtekeninggenerator`.
-2. Upload `index.html` en `.nojekyll` rechtstreeks naar de hoofdmap.
-3. Zet GitHub Pages aan via:
-   Settings > Pages > Deploy from a branch > main > /(root)
-4. Open daarna de beheermodus:
-   https://UW-GEBRUIKERSNAAM.github.io/handtekeninggenerator/?beheer=1
-5. Upload logo en banners.
-6. Klik op Websitepakket downloaden.
-7. Pak de ZIP uit.
-8. Upload alle bestanden uit die ZIP rechtstreeks naar de hoofdmap van de GitHub repository.
+### Logo of banner gewijzigd
+Kies de nieuwe afbeelding in Beheer en download daarna het websitepakket.
+De ZIP bevat dan:
+- `index.html`
+- én alleen de afbeelding(en) die u in die beheersessie opnieuw gekozen hebt.
 
-## Vaste bestandsnamen
+Upload die bestanden rechtstreeks naar de hoofdmap van GitHub en vervang de bestaande bestanden.
 
-logo.png
-banner-nl.jpg
-banner-fr.jpg
+De vaste namen blijven:
+- logo.png
+- banner-nl.jpg
+- banner-fr.jpg
 
-Die namen blijven altijd hetzelfde. Daardoor blijven reeds geïnstalleerde online handtekeningen naar dezelfde afbeeldings-URL verwijzen.
+Daardoor blijven bestaande online handtekeningen naar dezelfde URL verwijzen.
