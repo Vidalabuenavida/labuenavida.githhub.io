@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="nl"><head>
+<html lang="nl">
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Buena Vida | Outlook-handtekening</title>
@@ -258,22 +259,22 @@
   "greetingNl": "Met vriendelijke groeten",
   "greetingFr": "Bien cordialement",
   "noticeEnabledNl": true,
-  "noticeTextNl": "Zet onze Grote Herfstdegustatie reeds in uw agenda:",
+  "noticeTextNl": "La Buena Vida blijft de hele zomer geopend. Met als uitzondering vrijdag 14 augustus.",
   "noticeEnabledFr": true,
-  "noticeTextFr": "Notez notre dégustation d’automne dans votre agenda :",
-  "bannerEnabledNl": true,
-  "bannerImageNl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/assets/banner-nl.jpg",
+  "noticeTextFr": "La Buena Vida reste ouvert tout l’été, à l’exception du vendredi 14 août.",
+  "bannerEnabledNl": false,
+  "bannerImageNl": "",
   "bannerLinkNl": "https://www.labuenavida.be/grote-herfstdegustatie-2026",
   "bannerAltNl": "Grote Herfstdegustatie 2026, 3 en 4 oktober",
-  "bannerEnabledFr": true,
-  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/assets/banner-fr.jpg",
-  "bannerLinkFr": "https://www.labuenavida.be/fr/grote-herfstdegustatie-2026",
+  "bannerEnabledFr": false,
+  "bannerImageFr": "",
+  "bannerLinkFr": "https://www.labuenavida.be/fr/",
   "bannerAltFr": "Grande dégustation d’automne 2026, 3 et 4 octobre",
   "websiteText": "www.labuenavida.be",
   "websiteUrlNl": "https://www.labuenavida.be/",
   "websiteUrlFr": "https://www.labuenavida.be/fr/",
-  "logoUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/assets/logo.png",
-  "siteBaseUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io",
+  "logoUrl": "",
+  "siteBaseUrl": "",
   "taglineNl": "Spaanse wijnimporteur sinds 1994",
   "taglineFr": "Importateur de vins espagnols depuis 1994",
   "address": "Verlipark, Lichtstraat z/n, 2400 Mol",
@@ -287,7 +288,7 @@
 }
   </script>
 </head>
-<body class="">
+<body>
   <main class="page">
     <div class="intro">
       <h1 id="page-title">Outlook-handtekening</h1>
@@ -303,16 +304,16 @@
         <div class="section">
           <h2 id="personal-heading">Persoonlijke gegevens</h2>
           <label><span id="label-name">Naam</span>
-            <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name" value="">
+            <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name">
           </label>
           <label><span id="label-role">Functie</span>
-            <input id="role" type="text" placeholder="Functie" value="">
+            <input id="role" type="text" placeholder="Functie">
           </label>
           <label><span id="label-mobile">Gsm-nummer</span>
-            <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel" value="">
+            <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel">
           </label>
           <label><span id="label-email">E-mailadres</span> <span id="label-optional" style="font-weight:400; color:#78817d;">(optioneel)</span>
-            <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be" value="">
+            <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be">
           </label>
         </div>
 
@@ -1455,24 +1456,24 @@
           }
 
           if (bannerNlAsset) {
-            finalConfig.bannerImageNl = baseUrl + '/assets/banner-nl.jpg';
-            entries.push({ name: 'assets/banner-nl.jpg', data: bannerNlAsset.bytes });
+            finalConfig.bannerImageNl = baseUrl + '/banner-nl.jpg';
+            entries.push({ name: 'banner-nl.jpg', data: bannerNlAsset.bytes });
           } else {
             finalConfig.bannerImageNl = '';
             finalConfig.bannerEnabledNl = false;
           }
 
           if (bannerFrAsset) {
-            finalConfig.bannerImageFr = baseUrl + '/assets/banner-fr.jpg';
-            entries.push({ name: 'assets/banner-fr.jpg', data: bannerFrAsset.bytes });
+            finalConfig.bannerImageFr = baseUrl + '/banner-fr.jpg';
+            entries.push({ name: 'banner-fr.jpg', data: bannerFrAsset.bytes });
           } else {
             finalConfig.bannerImageFr = '';
             finalConfig.bannerEnabledFr = false;
           }
 
           if (logoAsset) {
-            finalConfig.logoUrl = baseUrl + '/assets/logo.png';
-            entries.push({ name: 'assets/logo.png', data: logoAsset.bytes });
+            finalConfig.logoUrl = baseUrl + '/logo.png';
+            entries.push({ name: 'logo.png', data: logoAsset.bytes });
           } else {
             finalConfig.logoUrl = '';
           }
@@ -1491,7 +1492,7 @@
           setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
 
           els.adminStatus.textContent =
-            'Websitepakket gedownload. De vaste URLs zijn assets/banner-nl.jpg, assets/banner-fr.jpg en assets/logo.png. Upload de volledige map opnieuw naar GitHub.';
+            'Websitepakket gedownload. De vaste bestanden zijn banner-nl.jpg, banner-fr.jpg en logo.png. Upload alle bestanden opnieuw naar GitHub.';
         } catch (err) {
           console.error(err);
           els.adminStatus.textContent =
@@ -1549,7 +1550,7 @@
             config.bannerEnabledNl = true;
             adminFields.bannerEnabledNl.checked = true;
             const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
-            if (base) adminFields.bannerImageNl.value = base + '/assets/banner-nl.jpg';
+            if (base) adminFields.bannerImageNl.value = base + '/banner-nl.jpg';
             if (currentLang === 'nl') render();
             els.adminStatus.textContent = 'Nederlandse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
           } catch (err) {
@@ -1563,7 +1564,7 @@
             config.bannerEnabledFr = true;
             adminFields.bannerEnabledFr.checked = true;
             const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
-            if (base) adminFields.bannerImageFr.value = base + '/assets/banner-fr.jpg';
+            if (base) adminFields.bannerImageFr.value = base + '/banner-fr.jpg';
             if (currentLang === 'fr') render();
             els.adminStatus.textContent = 'Franse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
           } catch (err) {
@@ -1575,7 +1576,7 @@
           try {
             uploadedAssets.logo = await readImageFile(event.target.files[0], 'png');
             const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
-            if (base) adminFields.logoUrl.value = base + '/assets/logo.png';
+            if (base) adminFields.logoUrl.value = base + '/logo.png';
             render();
             els.adminStatus.textContent = 'Logo geladen in de preview. Download daarna het websitepakket om het te publiceren.';
           } catch (err) {
@@ -1589,6 +1590,5 @@
       }
     }());
   </script>
-
-
-</body></html>
+</body>
+</html>
