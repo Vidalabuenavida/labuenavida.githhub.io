@@ -358,7 +358,7 @@
     <section class="panel admin-panel admin-only">
       <h2>Beheer vaste gegevens</h2>
       <div style="display:inline-block; margin:-6px 0 14px 0; padding:5px 9px; border-radius:999px; background:#eef1ef; color:#19382f; font-size:12px; font-weight:700;">
-        Versie 1.9 – cache refresh + RDS installer
+        Versie 2.0 – RDS lokale afbeeldingen
       </div>
 
       <div class="admin-note" style="margin-top:0; margin-bottom:20px;">
@@ -501,7 +501,7 @@
     (function () {
       'use strict';
 
-      const APP_VERSION = '1.9-rds-installer-fixed';
+      const APP_VERSION = '2.0-rds-absolute-image-paths';
       const STORAGE_KEY = 'lbv_signature_admin_config_v1';
       const PERSONAL_KEY = 'lbv_signature_personal_v1';
 
@@ -1315,15 +1315,20 @@
           '6. Kies "' + signatureName + '" als standaardhandtekening.',
           '',
           'Logo en banner worden lokaal in uw Windows-profiel opgeslagen.',
+          'De installer zet de afbeeldingslinks om naar volledige lokale bestandspaden.',
           'Daardoor hoeft Outlook de afbeeldingen niet via internet te laden.'
         ].join('\r\n');
       }
 
-      function installerBatchText(signatureName) {
+      function installerBatchText(signatureName, localLogo, localBanner) {
         const safeName = String(signatureName || '').replace(/"/g, '');
         const imageFolder = safeName + '_files';
+        const psName = safeName.replace(/'/g, "''");
+        const psFolder = imageFolder.replace(/'/g, "''");
+        const psLogo = String(localLogo || '').replace(/'/g, "''");
+        const psBanner = String(localBanner || '').replace(/'/g, "''");
 
-        return [
+        const lines = [
           '@echo off',
           'setlocal',
           'title La Buena Vida - Outlook handtekening installeren',
@@ -1331,8 +1336,8 @@
           'echo La Buena Vida - Classic Outlook handtekening',
           'echo =============================================',
           'echo.',
-          'echo De handtekening wordt nu geinstalleerd in uw Windows-profiel.',
-          'echo Sluit Outlook bij voorkeur voor u verdergaat.',
+          'echo De handtekening wordt lokaal geinstalleerd.',
+          'echo Sluit Outlook voor u verdergaat.',
           'echo.',
           'pause',
           '',
@@ -1346,11 +1351,55 @@
           'if exist "%SIGDIR%\\' + imageFolder + '" rmdir /S /Q "%SIGDIR%\\' + imageFolder + '"',
           'xcopy /E /I /Y "%~dp0' + imageFolder + '" "%SIGDIR%\\' + imageFolder + '\\" >nul',
           '',
+          'if errorlevel 1 goto ERROR'
+        ];
+
+        if (localLogo) {
+          lines.push(
+            'if not exist "%SIGDIR%\\' + imageFolder + '\\' + localLogo + '" goto ERROR_IMAGES'
+          );
+        }
+
+        if (localBanner) {
+          lines.push(
+            'if not exist "%SIGDIR%\\' + imageFolder + '\\' + localBanner + '" goto ERROR_IMAGES'
+          );
+        }
+
+        // Outlook op RDS kan relatieve paden verliezen.
+        // Daarom herschrijven we de gekopieerde HTML naar absolute file:/// URI's
+        // op basis van het actuele Windows-profiel van de gebruiker.
+        let ps =
+          "$sigDir=Join-Path $env:APPDATA 'Microsoft\\Signatures';" +
+          "$html=Join-Path $sigDir '" + psName + ".htm';" +
+          "$imgDir=Join-Path $sigDir '" + psFolder + "';" +
+          "$c=[IO.File]::ReadAllText($html);";
+
+        if (localLogo) {
+          ps +=
+            "$logo=(New-Object System.Uri((Join-Path $imgDir '" + psLogo + "'))).AbsoluteUri;" +
+            "$c=$c.Replace('" + psFolder + "/" + psLogo + "',$logo);";
+        }
+
+        if (localBanner) {
+          ps +=
+            "$banner=(New-Object System.Uri((Join-Path $imgDir '" + psBanner + "'))).AbsoluteUri;" +
+            "$c=$c.Replace('" + psFolder + "/" + psBanner + "',$banner);";
+        }
+
+        ps +=
+          "[IO.File]::WriteAllText($html,$c,(New-Object Text.UTF8Encoding($false)));";
+
+        lines.push(
+          '',
+          'powershell -NoProfile -ExecutionPolicy Bypass -Command "' + ps.replace(/"/g, '\\"') + '"',
           'if errorlevel 1 goto ERROR',
           '',
           'echo.',
           'echo KLAAR.',
           'echo De handtekening "' + safeName + '" is geinstalleerd.',
+          'echo Logo en banner staan lokaal in:',
+          'echo %SIGDIR%\\' + imageFolder,
           'echo.',
           'echo Open Outlook en ga naar:',
           'echo Bestand ^> Opties ^> E-mail ^> Handtekeningen',
@@ -1359,6 +1408,14 @@
           'pause',
           'exit /b 0',
           '',
+          ':ERROR_IMAGES',
+          'echo.',
+          'echo FOUT: logo of banner ontbreekt in het installatiepakket.',
+          'echo Maak het pakket opnieuw via de handtekeninggenerator.',
+          'echo.',
+          'pause',
+          'exit /b 2',
+          '',
           ':ERROR',
           'echo.',
           'echo De installatie is niet volledig gelukt.',
@@ -1366,7 +1423,9 @@
           'echo.',
           'pause',
           'exit /b 1'
-        ].join('\r\n');
+        );
+
+        return lines.join('\r\n');
       }
 
       async function downloadRdsPackage() {
@@ -1402,7 +1461,7 @@
             { name: signatureName + '.htm', data: html },
             { name: signatureName + '.txt', data: plainSignatureText() },
             { name: signatureName + '.rtf', data: makeRtfFallback() },
-            { name: 'INSTALLEREN.cmd', data: installerBatchText(signatureName) },
+            { name: 'INSTALLEREN.cmd', data: installerBatchText(signatureName, localLogo, localBanner) },
             { name: 'LEESMIJ.txt', data: installationText(signatureName) }
           );
 
