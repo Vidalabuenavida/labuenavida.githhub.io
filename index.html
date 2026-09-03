@@ -330,8 +330,8 @@
 
         <div class="actions">
           <button class="primary" id="copy" type="button">Kopieer handtekening</button>
-          <button class="secondary" id="copy-embedded" type="button">Kopieer voor RDS</button>
-          <p class="small" id="embedded-help" style="margin-top:-4px;">Voor Classic Outlook op de server/RDS. De handtekening wordt eerst volledig geladen en daarna op de klassieke manier gekopieerd.</p>
+          <button class="secondary" id="copy-embedded" type="button">Installeer op Classic Outlook (RDS)</button>
+          <p class="small" id="embedded-help" style="margin-top:-4px;">Download het installatiepakket, pak de ZIP uit en dubbelklik op <strong>INSTALLEREN.cmd</strong>. Logo en banner worden lokaal mee geïnstalleerd.</p>
           <button class="secondary" id="download-signature" type="button">Download losse HTML</button>
         </div>
         <div class="status" id="status" aria-live="polite"></div>
@@ -358,7 +358,7 @@
     <section class="panel admin-panel admin-only">
       <h2>Beheer vaste gegevens</h2>
       <div style="display:inline-block; margin:-6px 0 14px 0; padding:5px 9px; border-radius:999px; background:#eef1ef; color:#19382f; font-size:12px; font-weight:700;">
-        Versie 1.7 – cache refresh + RDS klassieke kopie
+        Versie 1.8 – cache refresh + RDS installer
       </div>
 
       <div class="admin-note" style="margin-top:0; margin-bottom:20px;">
@@ -501,7 +501,7 @@
     (function () {
       'use strict';
 
-      const APP_VERSION = '1.7-rds-classic-copy';
+      const APP_VERSION = '1.8-rds-installer';
       const STORAGE_KEY = 'lbv_signature_admin_config_v1';
       const PERSONAL_KEY = 'lbv_signature_personal_v1';
 
@@ -520,11 +520,11 @@
           noticeText: 'Tekst',
           noticeHelp: 'De beheerder bepaalt de standaardtekst. U kunt die hier aanpassen voor uw eigen handtekening.',
           copy: 'Kopieer handtekening',
-          copyEmbedded: 'Kopieer voor RDS',
-          embeddedHelp: 'Voor Classic Outlook op de server/RDS. De handtekening wordt eerst volledig geladen en daarna op de klassieke manier gekopieerd.',
-          embeddedPreparing: 'Handtekening en afbeeldingen worden geladen...',
-          embeddedCopied: 'RDS-handtekening gekopieerd. U kunt nu plakken in Outlook.',
-          embeddedFail: 'Kopiëren voor RDS lukte niet. Probeer de pagina opnieuw te laden.',
+          copyEmbedded: 'Installeer op Classic Outlook (RDS)',
+          embeddedHelp: 'Download het installatiepakket, pak de ZIP uit en dubbelklik op INSTALLEREN.cmd. Logo en banner worden lokaal mee geïnstalleerd.',
+          embeddedPreparing: 'Installatiepakket wordt gemaakt...',
+          embeddedCopied: 'Installatiepakket gedownload. Pak de ZIP uit en dubbelklik op INSTALLEREN.cmd.',
+          embeddedFail: 'Het installatiepakket kon niet worden gemaakt. Controleer of logo en banner zichtbaar zijn en probeer opnieuw.',
           download: 'Download losse HTML',
           downloadRds: 'Download RDS / Classic Outlook',
           rdsHelp: 'Gebruik de RDS-versie wanneer logo of banner verdwijnen zodra u een nieuwe mail opent in Classic Outlook.',
@@ -556,11 +556,11 @@
           noticeText: 'Texte',
           noticeHelp: 'L’administrateur définit le texte standard. Vous pouvez l’adapter pour votre propre signature.',
           copy: 'Copier la signature',
-          copyEmbedded: 'Copier pour RDS',
-          embeddedHelp: 'Pour Outlook classique sur le serveur/RDS. La signature est d’abord entièrement chargée puis copiée avec la méthode classique.',
-          embeddedPreparing: 'Chargement de la signature et des images...',
-          embeddedCopied: 'Signature RDS copiée. Vous pouvez maintenant la coller dans Outlook.',
-          embeddedFail: 'La copie pour RDS a échoué. Rechargez la page et réessayez.',
+          copyEmbedded: 'Installer dans Outlook classique (RDS)',
+          embeddedHelp: 'Téléchargez le paquet, décompressez le ZIP et double-cliquez sur INSTALLEREN.cmd. Le logo et la bannière sont installés localement.',
+          embeddedPreparing: 'Création du paquet d’installation...',
+          embeddedCopied: 'Paquet téléchargé. Décompressez le ZIP et double-cliquez sur INSTALLEREN.cmd.',
+          embeddedFail: 'Le paquet d’installation n’a pas pu être créé. Vérifiez le logo et la bannière puis réessayez.',
           download: 'Télécharger le HTML',
           downloadRds: 'Télécharger pour RDS / Outlook classique',
           rdsHelp: 'Utilisez la version RDS si le logo ou la bannière disparaissent lorsque vous ouvrez un nouveau message dans Outlook classique.',
@@ -1290,47 +1290,89 @@
       function installationText(signatureName) {
         if (currentLang === 'fr') {
           return [
-            'INSTALLATION - RDS / OUTLOOK CLASSIQUE',
+            'LA BUENA VIDA - OUTLOOK CLASSIQUE / RDS',
             '',
-            'Cette version utilise des images locales afin qu’Outlook ne doive pas charger le logo et la bannière depuis Internet.',
+            '1. Décompressez complètement ce fichier ZIP.',
+            '2. Fermez Outlook.',
+            '3. Double-cliquez sur INSTALLEREN.cmd.',
+            '4. Rouvrez Outlook.',
+            '5. Allez dans Fichier > Options > Courrier > Signatures.',
+            '6. Choisissez "' + signatureName + '" comme signature par défaut.',
             '',
-            '1. Fermez complètement Outlook.',
-            '2. Décompressez ce fichier ZIP.',
-            '3. Appuyez sur Windows + R.',
-            '4. Saisissez : %APPDATA%\\Microsoft\\Signatures',
-            '5. Appuyez sur Entrée.',
-            '6. Copiez les fichiers "' + signatureName + '.htm", "' + signatureName + '.txt", "' + signatureName + '.rtf" ainsi que le dossier "' + signatureName + '_files" dans ce dossier Signatures.',
-            '7. Rouvrez Outlook.',
-            '8. Dans Outlook classique : Fichier > Options > Courrier > Signatures.',
-            '9. Choisissez "' + signatureName + '" pour les nouveaux messages et, si souhaité, pour les réponses.',
-            '',
-            'Important : cette méthode est prévue pour Outlook classique sous Windows/RDS. Elle ne s’applique pas au nouvel Outlook.',
-            'Ne renommez pas le dossier "_files", sinon les images ne seront plus trouvées.'
-          ].join('\r\n');
+            'Le logo et la bannière sont enregistrés localement dans votre profil Windows.',
+            'Outlook ne doit donc plus les charger via Internet.'
+          ].join('
+');
         }
 
         return [
-          'INSTALLATIE - RDS / CLASSIC OUTLOOK',
+          'LA BUENA VIDA - CLASSIC OUTLOOK / RDS',
           '',
-          'Deze versie gebruikt lokale afbeeldingen. Outlook hoeft het logo en de banner dus niet van internet te laden.',
+          '1. Pak dit ZIP-bestand volledig uit.',
+          '2. Sluit Outlook.',
+          '3. Dubbelklik op INSTALLEREN.cmd.',
+          '4. Open Outlook opnieuw.',
+          '5. Ga naar Bestand > Opties > E-mail > Handtekeningen.',
+          '6. Kies "' + signatureName + '" als standaardhandtekening.',
           '',
-          '1. Sluit Outlook volledig af.',
-          '2. Pak dit ZIP-bestand uit.',
-          '3. Druk op Windows + R.',
-          '4. Vul in: %APPDATA%\\Microsoft\\Signatures',
-          '5. Druk op Enter.',
-          '6. Kopieer "' + signatureName + '.htm", "' + signatureName + '.txt", "' + signatureName + '.rtf" én de map "' + signatureName + '_files" naar deze Signatures-map.',
-          '7. Open Outlook opnieuw.',
-          '8. Ga in Classic Outlook naar Bestand > Opties > E-mail > Handtekeningen.',
-          '9. Kies "' + signatureName + '" voor nieuwe berichten en eventueel ook voor antwoorden.',
+          'Logo en banner worden lokaal in uw Windows-profiel opgeslagen.',
+          'Daardoor hoeft Outlook de afbeeldingen niet via internet te laden.'
+        ].join('
+');
+      }
+
+      function installerBatchText(signatureName) {
+        const safeName = String(signatureName || '').replace(/"/g, '');
+        const imageFolder = safeName + '_files';
+
+        return [
+          '@echo off',
+          'setlocal',
+          'title La Buena Vida - Outlook handtekening installeren',
+          'echo.',
+          'echo La Buena Vida - Classic Outlook handtekening',
+          'echo =============================================',
+          'echo.',
+          'echo De handtekening wordt nu geinstalleerd in uw Windows-profiel.',
+          'echo Sluit Outlook bij voorkeur voor u verdergaat.',
+          'echo.',
+          'pause',
           '',
-          'Belangrijk: deze methode is bedoeld voor Classic Outlook op Windows/RDS. Ze geldt niet voor de nieuwe Outlook.',
-          'Hernoem de map "_files" niet, anders vindt Outlook de afbeeldingen niet meer.'
+          'set "SIGDIR=%APPDATA%\\Microsoft\\Signatures"',
+          'if not exist "%SIGDIR%" mkdir "%SIGDIR%"',
+          '',
+          'copy /Y "%~dp0' + safeName + '.htm" "%SIGDIR%\\' + safeName + '.htm" >nul',
+          'copy /Y "%~dp0' + safeName + '.txt" "%SIGDIR%\\' + safeName + '.txt" >nul',
+          'copy /Y "%~dp0' + safeName + '.rtf" "%SIGDIR%\\' + safeName + '.rtf" >nul',
+          '',
+          'if exist "%SIGDIR%\\' + imageFolder + '" rmdir /S /Q "%SIGDIR%\\' + imageFolder + '"',
+          'xcopy /E /I /Y "%~dp0' + imageFolder + '" "%SIGDIR%\\' + imageFolder + '\\" >nul',
+          '',
+          'if errorlevel 1 goto ERROR',
+          '',
+          'echo.',
+          'echo KLAAR.',
+          'echo De handtekening "' + safeName + '" is geinstalleerd.',
+          'echo.',
+          'echo Open Outlook en ga naar:',
+          'echo Bestand ^> Opties ^> E-mail ^> Handtekeningen',
+          'echo Kies daar "' + safeName + '" als standaardhandtekening.',
+          'echo.',
+          'pause',
+          'exit /b 0',
+          '',
+          ':ERROR',
+          'echo.',
+          'echo De installatie is niet volledig gelukt.',
+          'echo Controleer of u het ZIP-bestand eerst volledig hebt uitgepakt.',
+          'echo.',
+          'pause',
+          'exit /b 1'
         ].join('\r\n');
       }
 
       async function downloadRdsPackage() {
-        els.status.textContent = uiText[currentLang].rdsPreparing;
+        els.status.textContent = uiText[currentLang].embeddedPreparing;
 
         const cfg = renderConfig();
         const signatureName = 'LBV - ' + sanitizeFilePart(els.name.value.trim());
@@ -1362,23 +1404,24 @@
             { name: signatureName + '.htm', data: html },
             { name: signatureName + '.txt', data: plainSignatureText() },
             { name: signatureName + '.rtf', data: makeRtfFallback() },
-            { name: 'INSTALLATIE.txt', data: installationText(signatureName) }
+            { name: 'INSTALLEREN.cmd', data: installerBatchText(signatureName) },
+            { name: 'LEESMIJ.txt', data: installationText(signatureName) }
           );
 
           const zipBlob = makeZip(entries);
           const url = URL.createObjectURL(zipBlob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'LBV-RDS-handtekening-' + sanitizeFilePart(els.name.value.trim()).replace(/\s+/g, '-') + '.zip';
+          a.download = 'LBV-Outlook-installatie-' + sanitizeFilePart(els.name.value.trim()).replace(/\s+/g, '-') + '.zip';
           document.body.appendChild(a);
           a.click();
           a.remove();
           setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
 
-          els.status.textContent = uiText[currentLang].rdsDownloaded;
+          els.status.textContent = uiText[currentLang].embeddedCopied;
         } catch (err) {
           console.error(err);
-          els.status.textContent = uiText[currentLang].rdsImageError;
+          els.status.textContent = uiText[currentLang].embeddedFail;
         }
       }
 
@@ -1648,7 +1691,7 @@
       });
 
       els.copy.addEventListener('click', copySignature);
-      els.copyEmbedded.addEventListener('click', copyEmbeddedSignature);
+      els.copyEmbedded.addEventListener('click', downloadRdsPackage);
       els.downloadSignature.addEventListener('click', downloadSignatureHtml);
 
       els.langNl.addEventListener('click', function () {
