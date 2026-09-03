@@ -1,19 +1,13 @@
 LA BUENA VIDA HANDTEKENINGGENERATOR
-MASTER VERSIE 1.8
+MASTER VERSIE 2.3 – STANDAARDVERSIE
 
-Voor Classic Outlook / RDS:
-1. Vul uw gegevens in.
-2. Klik 'Installeer op Classic Outlook (RDS)'.
-3. Pak de gedownloade ZIP volledig uit.
-4. Sluit Outlook.
-5. Dubbelklik op INSTALLEREN.cmd.
-6. Open Outlook en kies de geïnstalleerde handtekening als standaard.
+Deze versie is opnieuw vereenvoudigd:
+- gewone knop 'Kopieer handtekening'
+- download losse HTML
+- geen RDS/Classic Outlook installatieopties meer
+- cache refresh blijft actief
+- beheer via ?beheer=1 blijft actief
+- logo linkt naar https://www.labuenavida.be/
+- lege regel tussen begroeting en naam blijft behouden
 
-Het installatiepakket bevat:
-- HTML-handtekening
-- TXT- en RTF-versie
-- lokaal logo
-- lokale banner
-- INSTALLEREN.cmd
-
-Hierdoor hoeft Outlook geen externe afbeeldingen meer te laden.
+Problemen met afbeeldingen in Classic Outlook/RDS moeten op Outlook/RDS-niveau opgelost worden.

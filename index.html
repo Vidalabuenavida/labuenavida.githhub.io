@@ -330,9 +330,7 @@
 
         <div class="actions">
           <button class="primary" id="copy" type="button">Kopieer handtekening</button>
-          <button class="secondary" id="copy-embedded" type="button">Installeer op Classic Outlook (RDS)</button>
-          <p class="small" id="embedded-help" style="margin-top:-4px;">Voor RDS/Classic Outlook: klik op de knop en dubbelklik daarna op het gedownloade installatiebestand. Banner en logo worden lokaal opgeslagen in de klassieke Outlook-structuur.</p>
-          <button class="secondary" id="download-signature" type="button">Download losse HTML</button>
+<button class="secondary" id="download-signature" type="button">Download losse HTML</button>
         </div>
         <div class="status" id="status" aria-live="polite"></div>
       </aside>
@@ -358,7 +356,7 @@
     <section class="panel admin-panel admin-only">
       <h2>Beheer vaste gegevens</h2>
       <div style="display:inline-block; margin:-6px 0 14px 0; padding:5px 9px; border-radius:999px; background:#eef1ef; color:#19382f; font-size:12px; font-weight:700;">
-        Versie 2.2 – Outlook native structuur
+        Versie 2.3 – standaardversie
       </div>
 
       <div class="admin-note" style="margin-top:0; margin-bottom:20px;">
@@ -501,7 +499,7 @@
     (function () {
       'use strict';
 
-      const APP_VERSION = '2.2-outlook-native-structure';
+      const APP_VERSION = '2.3-standard';
       const STORAGE_KEY = 'lbv_signature_admin_config_v1';
       const PERSONAL_KEY = 'lbv_signature_personal_v1';
 
@@ -520,17 +518,7 @@
           noticeText: 'Tekst',
           noticeHelp: 'De beheerder bepaalt de standaardtekst. U kunt die hier aanpassen voor uw eigen handtekening.',
           copy: 'Kopieer handtekening',
-          copyEmbedded: 'Installeer op Classic Outlook (RDS)',
-          embeddedHelp: 'Voor RDS/Classic Outlook: klik op de knop en dubbelklik daarna op het gedownloade installatiebestand. Banner en logo worden lokaal opgeslagen in de klassieke Outlook-structuur.',
-          embeddedPreparing: 'Installatiebestand wordt gemaakt...',
-          embeddedCopied: 'Installatiebestand gedownload. Dubbelklik erop om de handtekening te installeren.',
-          embeddedFail: 'Het installatiebestand kon niet worden gemaakt. Controleer of logo en banner zichtbaar zijn en probeer opnieuw.',
           download: 'Download losse HTML',
-          downloadRds: 'Download RDS / Classic Outlook',
-          rdsHelp: 'Gebruik de RDS-versie wanneer logo of banner verdwijnen zodra u een nieuwe mail opent in Classic Outlook.',
-          rdsPreparing: 'RDS-pakket wordt gemaakt...',
-          rdsDownloaded: 'RDS-pakket gedownload. Volg INSTALLATIE.txt in het ZIP-bestand.',
-          rdsImageError: 'De afbeeldingen konden niet lokaal worden opgeslagen. Controleer of logo en banner in de browser zichtbaar zijn en probeer opnieuw.',
           preview: 'Voorbeeld op witte achtergrond',
           outlook: 'In Outlook 365:',
           help1: 'Klik op <strong>Kopieer handtekening</strong>.',
@@ -556,17 +544,7 @@
           noticeText: 'Texte',
           noticeHelp: 'L’administrateur définit le texte standard. Vous pouvez l’adapter pour votre propre signature.',
           copy: 'Copier la signature',
-          copyEmbedded: 'Installer dans Outlook classique (RDS)',
-          embeddedHelp: 'Pour RDS/Outlook classique : cliquez sur le bouton puis double-cliquez sur le fichier d’installation téléchargé. La bannière et le logo sont enregistrés localement dans la structure classique d’Outlook.',
-          embeddedPreparing: 'Création du fichier d’installation...',
-          embeddedCopied: 'Fichier d’installation téléchargé. Double-cliquez dessus pour installer la signature.',
-          embeddedFail: 'Le fichier d’installation n’a pas pu être créé. Vérifiez le logo et la bannière puis réessayez.',
           download: 'Télécharger le HTML',
-          downloadRds: 'Télécharger pour RDS / Outlook classique',
-          rdsHelp: 'Utilisez la version RDS si le logo ou la bannière disparaissent lorsque vous ouvrez un nouveau message dans Outlook classique.',
-          rdsPreparing: 'Création du paquet RDS...',
-          rdsDownloaded: 'Paquet RDS téléchargé. Suivez le fichier INSTALLATION.txt dans le ZIP.',
-          rdsImageError: 'Les images n’ont pas pu être enregistrées localement. Vérifiez qu’elles sont visibles dans le navigateur et réessayez.',
           preview: 'Aperçu sur fond blanc',
           outlook: 'Dans Outlook 365 :',
           help1: 'Cliquez sur <strong>Copier la signature</strong>.',
@@ -643,8 +621,6 @@
         userNoticeText: document.getElementById('user-notice-text'),
         signature: document.getElementById('signature'),
         copy: document.getElementById('copy'),
-        copyEmbedded: document.getElementById('copy-embedded'),
-        embeddedHelp: document.getElementById('embedded-help'),
         downloadSignature: document.getElementById('download-signature'),
         status: document.getElementById('status'),
         adminStatus: document.getElementById('admin-status'),
@@ -734,8 +710,6 @@
         document.getElementById('notice-text-label').textContent = t.noticeText;
         document.getElementById('notice-help').textContent = t.noticeHelp;
         els.copy.textContent = t.copy;
-        els.copyEmbedded.textContent = t.copyEmbedded;
-        els.embeddedHelp.textContent = t.embeddedHelp;
         els.downloadSignature.textContent = t.download;
         document.getElementById('preview-label').textContent = t.preview;
         document.getElementById('outlook-help-title').textContent = t.outlook;
@@ -1868,7 +1842,6 @@
       });
 
       els.copy.addEventListener('click', copySignature);
-      els.copyEmbedded.addEventListener('click', downloadRdsPackage);
       els.downloadSignature.addEventListener('click', downloadSignatureHtml);
 
       els.langNl.addEventListener('click', function () {
