@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="nl">
-<head>
+<html lang="nl"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Buena Vida | Outlook-handtekening</title>
@@ -259,22 +258,22 @@
   "greetingNl": "Met vriendelijke groeten",
   "greetingFr": "Bien cordialement",
   "noticeEnabledNl": true,
-  "noticeTextNl": "La Buena Vida blijft de hele zomer geopend. Met als uitzondering vrijdag 14 augustus.",
+  "noticeTextNl": "Zet onze Grote Herfstdegustatie reeds in uw agenda:",
   "noticeEnabledFr": true,
-  "noticeTextFr": "La Buena Vida reste ouvert tout l’été, à l’exception du vendredi 14 août.",
-  "bannerEnabledNl": false,
-  "bannerImageNl": "",
+  "noticeTextFr": "Notez notre dégustation d’automne dans votre agenda :",
+  "bannerEnabledNl": true,
+  "bannerImageNl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-nl.jpg",
   "bannerLinkNl": "https://www.labuenavida.be/grote-herfstdegustatie-2026",
   "bannerAltNl": "Grote Herfstdegustatie 2026, 3 en 4 oktober",
-  "bannerEnabledFr": false,
-  "bannerImageFr": "",
-  "bannerLinkFr": "https://www.labuenavida.be/fr/",
+  "bannerEnabledFr": true,
+  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-fr.jpg",
+  "bannerLinkFr": "https://www.labuenavida.be/fr/grote-herfstdegustatie-2026",
   "bannerAltFr": "Grande dégustation d’automne 2026, 3 et 4 octobre",
   "websiteText": "www.labuenavida.be",
   "websiteUrlNl": "https://www.labuenavida.be/",
   "websiteUrlFr": "https://www.labuenavida.be/fr/",
-  "logoUrl": "",
-  "siteBaseUrl": "",
+  "logoUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/logo.png",
+  "siteBaseUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io",
   "taglineNl": "Spaanse wijnimporteur sinds 1994",
   "taglineFr": "Importateur de vins espagnols depuis 1994",
   "address": "Verlipark, Lichtstraat z/n, 2400 Mol",
@@ -288,7 +287,7 @@
 }
   </script>
 </head>
-<body>
+<body class="">
   <main class="page">
     <div class="intro">
       <h1 id="page-title">Outlook-handtekening</h1>
@@ -304,16 +303,16 @@
         <div class="section">
           <h2 id="personal-heading">Persoonlijke gegevens</h2>
           <label><span id="label-name">Naam</span>
-            <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name">
+            <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name" value="">
           </label>
           <label><span id="label-role">Functie</span>
-            <input id="role" type="text" placeholder="Functie">
+            <input id="role" type="text" placeholder="Functie" value="">
           </label>
           <label><span id="label-mobile">Gsm-nummer</span>
-            <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel">
+            <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel" value="">
           </label>
           <label><span id="label-email">E-mailadres</span> <span id="label-optional" style="font-weight:400; color:#78817d;">(optioneel)</span>
-            <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be">
+            <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be" value="">
           </label>
         </div>
 
@@ -1425,10 +1424,10 @@
       async function exportWebsitePackage() {
         config = Object.assign({}, config, readAdminFields());
         const finalConfig = Object.assign({}, config);
-        const baseUrl = normalizeBaseUrl(finalConfig.siteBaseUrl || detectPublicBaseUrl());
+        const baseUrl = normalizeBaseUrl(finalConfig.siteBaseUrl);
 
         if (!baseUrl) {
-          els.adminStatus.textContent = 'De publieke URL kon niet worden bepaald. Vul ze in bij de beheerinstellingen.';
+          els.adminStatus.textContent = 'Vul eerst de publieke URL van de generator in. Op GitHub Pages wordt deze normaal automatisch ingevuld.';
           return;
         }
 
@@ -1437,27 +1436,45 @@
         try {
           const entries = [];
 
-          // De online handtekening gebruikt altijd dezelfde vaste bestandsnamen.
-          // We proberen bestaande online afbeeldingen NIET opnieuw te downloaden.
-          // Dat voorkomt CORS- en toegangsproblemen.
-          if (finalConfig.bannerEnabledNl) {
-            finalConfig.bannerImageNl = baseUrl + '/banner-nl.jpg';
-          }
-          if (finalConfig.bannerEnabledFr) {
-            finalConfig.bannerImageFr = baseUrl + '/banner-fr.jpg';
-          }
-          finalConfig.logoUrl = baseUrl + '/logo.png';
+          // Altijd dezelfde publieke bestandsnamen.
+          // Daardoor blijven reeds geïnstalleerde online handtekeningen naar dezelfde URL verwijzen.
+          let bannerNlAsset = uploadedAssets.bannerNl;
+          let bannerFrAsset = uploadedAssets.bannerFr;
+          let logoAsset = uploadedAssets.logo;
 
-          // Alleen afbeeldingen die in deze beheersessie opnieuw gekozen zijn,
-          // worden mee in het ZIP-pakket gestoken.
-          if (uploadedAssets.bannerNl) {
-            entries.push({ name: 'banner-nl.jpg', data: uploadedAssets.bannerNl.bytes });
+          // Ook als u alleen tekst wijzigt, nemen we de bestaande afbeeldingen opnieuw mee in het pakket.
+          // Zo verdwijnen ze niet bij een nieuwe Netlify-deploy.
+          if (!bannerNlAsset && finalConfig.bannerImageNl) {
+            bannerNlAsset = await fetchImageForPackage(finalConfig.bannerImageNl, 'jpg');
           }
-          if (uploadedAssets.bannerFr) {
-            entries.push({ name: 'banner-fr.jpg', data: uploadedAssets.bannerFr.bytes });
+          if (!bannerFrAsset && finalConfig.bannerImageFr) {
+            bannerFrAsset = await fetchImageForPackage(finalConfig.bannerImageFr, 'jpg');
           }
-          if (uploadedAssets.logo) {
-            entries.push({ name: 'logo.png', data: uploadedAssets.logo.bytes });
+          if (!logoAsset && finalConfig.logoUrl) {
+            logoAsset = await fetchImageForPackage(finalConfig.logoUrl, 'png');
+          }
+
+          if (bannerNlAsset) {
+            finalConfig.bannerImageNl = baseUrl + '/banner-nl.jpg';
+            entries.push({ name: 'banner-nl.jpg', data: bannerNlAsset.bytes });
+          } else {
+            finalConfig.bannerImageNl = '';
+            finalConfig.bannerEnabledNl = false;
+          }
+
+          if (bannerFrAsset) {
+            finalConfig.bannerImageFr = baseUrl + '/banner-fr.jpg';
+            entries.push({ name: 'banner-fr.jpg', data: bannerFrAsset.bytes });
+          } else {
+            finalConfig.bannerImageFr = '';
+            finalConfig.bannerEnabledFr = false;
+          }
+
+          if (logoAsset) {
+            finalConfig.logoUrl = baseUrl + '/logo.png';
+            entries.push({ name: 'logo.png', data: logoAsset.bytes });
+          } else {
+            finalConfig.logoUrl = '';
           }
 
           const output = makeExportHtml(finalConfig);
@@ -1473,17 +1490,12 @@
           a.remove();
           setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
 
-          const included = [];
-          if (uploadedAssets.logo) included.push('logo.png');
-          if (uploadedAssets.bannerNl) included.push('banner-nl.jpg');
-          if (uploadedAssets.bannerFr) included.push('banner-fr.jpg');
-
-          els.adminStatus.textContent = included.length
-            ? 'Websitepakket gedownload. Mee opgenomen: ' + included.join(', ') + '. Upload index.html en deze bestanden naar GitHub.'
-            : 'Websitepakket gedownload. Alleen index.html is gewijzigd. Uw bestaande logo.png en banners op GitHub blijven behouden.';
+          els.adminStatus.textContent =
+            'Websitepakket gedownload. De vaste bestanden zijn banner-nl.jpg, banner-fr.jpg en logo.png. Upload alle bestanden opnieuw naar GitHub.';
         } catch (err) {
           console.error(err);
-          els.adminStatus.textContent = 'Het websitepakket kon niet worden gemaakt. Probeer de pagina te vernieuwen en opnieuw.';
+          els.adminStatus.textContent =
+            'Het pakket kon niet volledig worden gemaakt. Upload logo en banners opnieuw in Beheer en probeer nogmaals.';
         }
       }
 
@@ -1577,5 +1589,6 @@
       }
     }());
   </script>
-</body>
-</html>
+
+
+</body></html>
