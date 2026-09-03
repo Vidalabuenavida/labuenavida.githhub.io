@@ -1,0 +1,1603 @@
+<!doctype html>
+<html lang="nl"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Buena Vida | Outlook-handtekening</title>
+  <style>
+    :root {
+      --ink: #17211d;
+      --green: #19382f;
+      --olive: #747910;
+      --paper: #ffffff;
+      --mist: #eef1ef;
+      --line: #d7ddd9;
+      --red: #c92117;
+      --soft: #f7f8f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--mist);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 32px auto;
+    }
+
+    .intro {
+      max-width: 850px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .intro p { margin: 0; color: #53605a; }
+
+    .language-switch {
+      display: inline-flex;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .language-switch button {
+      min-height: 34px;
+      padding: 6px 13px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .language-switch button.active {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(25, 56, 47, 0.06);
+    }
+
+    .settings { padding: 22px; }
+    .preview-panel { padding: 26px; overflow-x: auto; }
+
+    h2 {
+      margin: 0 0 16px;
+      color: var(--green);
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .section + .section {
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    label {
+      display: block;
+      margin: 0 0 12px;
+      color: #34413b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="email"],
+    textarea {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      padding: 9px 10px;
+      border: 1px solid #c8cfcb;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea { min-height: 78px; resize: vertical; }
+
+    input:focus, textarea:focus {
+      border-color: var(--olive);
+      outline: 2px solid rgba(116, 121, 16, 0.15);
+    }
+
+    .check {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-weight: 400;
+    }
+
+    .check input { margin-top: 3px; }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    button {
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .primary { background: var(--green); color: #fff; }
+    .secondary { background: #fff; color: var(--green); }
+    .danger { background: #fff; color: #8b241d; border-color: #b85a53; }
+    button:hover { filter: brightness(1.04); }
+
+    .status {
+      min-height: 20px;
+      margin-top: 9px;
+      color: var(--olive);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .preview-label {
+      margin: 0 0 18px;
+      color: #6a746f;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .signature-shell {
+      width: 666px;
+      min-height: 400px;
+      padding: 18px;
+      border: 1px solid #e0e4e1;
+      background: #fff;
+    }
+
+    .help,
+    .admin-note {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--olive);
+      background: var(--soft);
+      color: #4f5a55;
+      font-size: 13px;
+    }
+
+    .help strong, .admin-note strong { color: var(--green); }
+    .help ol { margin: 8px 0 0; padding-left: 20px; }
+    .help li + li { margin-top: 4px; }
+
+    .admin-panel {
+      margin-top: 22px;
+      padding: 22px;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .admin-box {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .admin-box h3 {
+      margin: 0 0 14px;
+      color: var(--green);
+      font-size: 15px;
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .admin-actions button { flex: 1 1 210px; }
+
+    .small {
+      margin: 7px 0 0;
+      color: #6a746f;
+      font-size: 12px;
+    }
+
+    .admin-only { display: none; }
+    body.admin-mode .admin-only { display: block; }
+
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: 1fr; }
+      .settings { order: 1; }
+      .preview-panel { order: 2; }
+      .admin-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script id="default-config" type="application/json">
+{
+  "greetingNl": "Met vriendelijke groeten",
+  "greetingFr": "Bien cordialement",
+  "noticeEnabledNl": true,
+  "noticeTextNl": "Zet onze Grote Herfstdegustatie reeds in uw agenda:",
+  "noticeEnabledFr": true,
+  "noticeTextFr": "Notez notre dégustation d’automne dans votre agenda :",
+  "bannerEnabledNl": true,
+  "bannerImageNl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-nl.jpg",
+  "bannerLinkNl": "https://www.labuenavida.be/grote-herfstdegustatie-2026",
+  "bannerAltNl": "Grote Herfstdegustatie 2026, 3 en 4 oktober",
+  "bannerEnabledFr": true,
+  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-fr.jpg",
+  "bannerLinkFr": "https://www.labuenavida.be/fr/grote-herfstdegustatie-2026",
+  "bannerAltFr": "Grande dégustation d’automne 2026, 3 et 4 octobre",
+  "websiteText": "www.labuenavida.be",
+  "websiteUrlNl": "https://www.labuenavida.be/",
+  "websiteUrlFr": "https://www.labuenavida.be/fr/",
+  "logoUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/logo.png",
+  "siteBaseUrl": "https://vidalabuenavida.github.io/labuenavida.githhub.io",
+  "taglineNl": "Spaanse wijnimporteur sinds 1994",
+  "taglineFr": "Importateur de vins espagnols depuis 1994",
+  "address": "Verlipark, Lichtstraat z/n, 2400 Mol",
+  "mapsUrl": "https://maps.google.com/?q=La+Buena+Vida+Lichtstraat+Mol",
+  "companyPhone": "014 45 13 03",
+  "companyPhoneHref": "+3214451303",
+  "companyEmail": "info@labuenavida.be",
+  "instagramUrl": "https://www.instagram.com/labuenavida_vinos/",
+  "facebookUrl": "https://www.facebook.com/Lbvida",
+  "linkedinUrl": "https://www.linkedin.com/company/labuenavidavinosdeviticultor/"
+}
+  </script>
+</head>
+<body class="">
+  <main class="page">
+    <div class="intro">
+      <h1 id="page-title">Outlook-handtekening</h1>
+      <p id="page-intro">Vul uw persoonlijke gegevens in, controleer het voorbeeld en kopieer de handtekening naar Outlook.</p>
+      <div class="language-switch" aria-label="Taal / Langue">
+        <button type="button" id="lang-nl" class="active">NL</button>
+        <button type="button" id="lang-fr">FR</button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <aside class="panel settings">
+        <div class="section">
+          <h2 id="personal-heading">Persoonlijke gegevens</h2>
+          <label><span id="label-name">Naam</span>
+            <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name" value="">
+          </label>
+          <label><span id="label-role">Functie</span>
+            <input id="role" type="text" placeholder="Functie" value="">
+          </label>
+          <label><span id="label-mobile">Gsm-nummer</span>
+            <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel" value="">
+          </label>
+          <label><span id="label-email">E-mailadres</span> <span id="label-optional" style="font-weight:400; color:#78817d;">(optioneel)</span>
+            <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be" value="">
+          </label>
+        </div>
+
+        <div class="section">
+          <h2 id="notice-heading">Vrije melding</h2>
+          <label class="check">
+            <input id="user-notice-enabled" type="checkbox">
+            <span id="notice-show-label">Melding tonen</span>
+          </label>
+          <label><span id="notice-text-label">Tekst</span>
+            <textarea id="user-notice-text" placeholder="Typ hier een tijdelijke melding..."></textarea>
+          </label>
+          <p class="small" id="notice-help">De beheerder bepaalt de standaardtekst. U kunt die hier aanpassen voor uw eigen handtekening.</p>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="copy" type="button">Kopieer handtekening</button>
+          <button class="secondary" id="download-signature" type="button">Download losse HTML</button>
+          <button class="secondary" id="download-rds" type="button">Download RDS / Classic Outlook</button>
+        </div>
+        <p class="small" id="rds-help">Gebruik de RDS-versie wanneer logo of banner verdwijnen zodra u een nieuwe mail opent in Classic Outlook.</p>
+        <div class="status" id="status" aria-live="polite"></div>
+      </aside>
+
+      <section class="panel preview-panel">
+        <div class="preview-label" id="preview-label">Voorbeeld op witte achtergrond</div>
+        <div class="signature-shell">
+          <div id="signature"></div>
+        </div>
+
+        <div class="help">
+          <strong id="outlook-help-title">In Outlook 365:</strong>
+          <ol>
+            <li id="help-step-1">Klik op <strong>Kopieer handtekening</strong>.</li>
+            <li id="help-step-2">Ga in Outlook naar <strong>Instellingen &gt; Accounts &gt; Handtekeningen</strong>.</li>
+            <li id="help-step-3">Maak een nieuwe handtekening, plak met <strong>Ctrl+V</strong> en bewaar.</li>
+            <li id="help-step-4">Stel ze in voor nieuwe berichten en, indien gewenst, voor antwoorden.</li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel admin-panel admin-only">
+      <h2>Beheer vaste gegevens</h2>
+      <div style="display:inline-block; margin:-6px 0 14px 0; padding:5px 9px; border-radius:999px; background:#eef1ef; color:#19382f; font-size:12px; font-weight:700;">
+        Versie 1.1 – cache refresh actief
+      </div>
+
+      <div class="admin-note" style="margin-top:0; margin-bottom:20px;">
+        <strong>Belangrijk:</strong> kies uw logo en desgewenst een aparte NL- en FR-banner als bestanden. De preview toont telkens de gekozen taal.
+        Bij publicatie krijgen de afbeeldingen altijd dezelfde vaste naam: <strong>logo.png</strong>, <strong>banner-nl.jpg</strong> en <strong>banner-fr.jpg</strong>.
+        Daardoor blijven bestaande online handtekeningen naar dezelfde afbeeldings-URL verwijzen. De preview gebruikt automatisch een cache refresh, zodat na een wijziging meteen de nieuwste afbeelding wordt opgehaald.
+        Klik daarna op <strong>Websitepakket downloaden</strong> en upload de nieuwe <strong>index.html</strong> en eventuele nieuwe afbeeldingen naar GitHub.
+        Pak die ZIP uit en upload de bestanden rechtstreeks naar de hoofdmap van GitHub. De afbeeldingen staan dan op GitHub Pages zelf en werken ook buiten deze browser.
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-box">
+          <h3>Nederlandse melding en banner</h3>
+          <label class="check">
+            <input id="admin-notice-enabled-nl" type="checkbox">
+            <span>Melding tonen</span>
+          </label>
+          <label>Standaardmelding NL
+            <textarea id="admin-notice-text-nl"></textarea>
+          </label>
+          <label class="check">
+            <input id="admin-banner-enabled-nl" type="checkbox">
+            <span>Banner tonen</span>
+          </label>
+          <label>Bannerbestand NL
+            <input id="admin-banner-file-nl" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          </label>
+          <label>Of publieke afbeeldings-URL NL
+            <input id="admin-banner-image-nl" type="url" placeholder="https://...">
+          </label>
+          <label>Link na klik NL
+            <input id="admin-banner-link-nl" type="url">
+          </label>
+          <label>Alternatieve tekst NL
+            <input id="admin-banner-alt-nl" type="text">
+          </label>
+        </div>
+
+        <div class="admin-box">
+          <h3>Franse melding en banner</h3>
+          <label class="check">
+            <input id="admin-notice-enabled-fr" type="checkbox">
+            <span>Melding tonen</span>
+          </label>
+          <label>Standaardmelding FR
+            <textarea id="admin-notice-text-fr"></textarea>
+          </label>
+          <label class="check">
+            <input id="admin-banner-enabled-fr" type="checkbox">
+            <span>Banner tonen</span>
+          </label>
+          <label>Bannerbestand FR
+            <input id="admin-banner-file-fr" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          </label>
+          <label>Of publieke afbeeldings-URL FR
+            <input id="admin-banner-image-fr" type="url" placeholder="https://...">
+          </label>
+          <label>Link na klik FR
+            <input id="admin-banner-link-fr" type="url">
+          </label>
+          <label>Alternatieve tekst FR
+            <input id="admin-banner-alt-fr" type="text">
+          </label>
+          <p class="small">U kunt de Franse banner apart instellen. Laat hem uitgevinkt zolang u geen Franse banner wilt tonen.</p>
+        </div>
+
+        <div class="admin-box">
+          <h3>Bedrijfsgegevens</h3>
+          <label>Begroeting NL
+            <input id="admin-greeting-nl" type="text">
+          </label>
+          <label>Begroeting FR
+            <input id="admin-greeting-fr" type="text">
+          </label>
+          <label>Website tekst
+            <input id="admin-website-text" type="text">
+          </label>
+          <label>Website URL NL
+            <input id="admin-website-url-nl" type="url">
+          </label>
+          <label>Website URL FR
+            <input id="admin-website-url-fr" type="url">
+          </label>
+          <label>Publieke URL van deze generator
+            <input id="admin-site-base-url" type="url" placeholder="https://handtekeninggenerator.netlify.app">
+          </label>
+          <label>Logobestand
+            <input id="admin-logo-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          </label>
+          <label>Of publieke logo-URL
+            <input id="admin-logo-url" type="url" placeholder="https://...">
+          </label>
+          <label>Titel NL
+            <input id="admin-tagline-nl" type="text">
+          </label>
+          <label>Titel FR
+            <input id="admin-tagline-fr" type="text">
+          </label>
+          <label>Adres
+            <input id="admin-address" type="text">
+          </label>
+          <label>Google Maps URL
+            <input id="admin-maps-url" type="url">
+          </label>
+          <label>Vast nummer
+            <input id="admin-company-phone" type="text">
+          </label>
+          <label>Telefoonlink
+            <input id="admin-company-phone-href" type="text" placeholder="+3214451303">
+          </label>
+          <label>Algemeen e-mailadres
+            <input id="admin-company-email" type="email">
+          </label>
+        </div>
+
+        <div class="admin-box">
+          <h3>Sociale media</h3>
+          <label>Instagram
+            <input id="admin-instagram-url" type="url">
+          </label>
+          <label>Facebook
+            <input id="admin-facebook-url" type="url">
+          </label>
+          <label>LinkedIn
+            <input id="admin-linkedin-url" type="url">
+          </label>
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="secondary" id="save-local" type="button">Opslaan op dit toestel</button>
+        <button class="primary" id="export-index" type="button">Websitepakket downloaden (.zip)</button>
+        <button class="danger" id="reset-local" type="button">Lokale wijzigingen wissen</button>
+      </div>
+      <div class="status" id="admin-status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const APP_VERSION = '1.1-cache-refresh';
+      const STORAGE_KEY = 'lbv_signature_admin_config_v1';
+      const PERSONAL_KEY = 'lbv_signature_personal_v1';
+
+      const uiText = {
+        nl: {
+          title: 'Outlook-handtekening',
+          intro: 'Vul uw persoonlijke gegevens in, controleer het voorbeeld en kopieer de handtekening naar Outlook.',
+          personalHeading: 'Persoonlijke gegevens',
+          name: 'Naam',
+          role: 'Functie',
+          mobile: 'Gsm-nummer',
+          email: 'E-mailadres',
+          optional: '(optioneel)',
+          noticeHeading: 'Vrije melding',
+          noticeShow: 'Melding tonen',
+          noticeText: 'Tekst',
+          noticeHelp: 'De beheerder bepaalt de standaardtekst. U kunt die hier aanpassen voor uw eigen handtekening.',
+          copy: 'Kopieer handtekening',
+          download: 'Download losse HTML',
+          downloadRds: 'Download RDS / Classic Outlook',
+          rdsHelp: 'Gebruik de RDS-versie wanneer logo of banner verdwijnen zodra u een nieuwe mail opent in Classic Outlook.',
+          rdsPreparing: 'RDS-pakket wordt gemaakt...',
+          rdsDownloaded: 'RDS-pakket gedownload. Volg INSTALLATIE.txt in het ZIP-bestand.',
+          rdsImageError: 'De afbeeldingen konden niet lokaal worden opgeslagen. Controleer of logo en banner in de browser zichtbaar zijn en probeer opnieuw.',
+          preview: 'Voorbeeld op witte achtergrond',
+          outlook: 'In Outlook 365:',
+          help1: 'Klik op <strong>Kopieer handtekening</strong>.',
+          help2: 'Ga in Outlook naar <strong>Instellingen &gt; Accounts &gt; Handtekeningen</strong>.',
+          help3: 'Maak een nieuwe handtekening, plak met <strong>Ctrl+V</strong> en bewaar.',
+          help4: 'Stel ze in voor nieuwe berichten en, indien gewenst, voor antwoorden.',
+          copied: 'Gekopieerd. U kunt nu plakken in Outlook.',
+          copyFail: 'Kopiëren lukte niet. Selecteer het voorbeeld handmatig en druk Ctrl+C.',
+          downloaded: 'Los HTML-bestand gedownload.',
+          route: 'Route'
+        },
+        fr: {
+          title: 'Signature Outlook',
+          intro: 'Complétez vos coordonnées, vérifiez l’aperçu et copiez la signature dans Outlook.',
+          personalHeading: 'Coordonnées personnelles',
+          name: 'Nom',
+          role: 'Fonction',
+          mobile: 'GSM',
+          email: 'Adresse e-mail',
+          optional: '(facultatif)',
+          noticeHeading: 'Message libre',
+          noticeShow: 'Afficher le message',
+          noticeText: 'Texte',
+          noticeHelp: 'L’administrateur définit le texte standard. Vous pouvez l’adapter pour votre propre signature.',
+          copy: 'Copier la signature',
+          download: 'Télécharger le HTML',
+          downloadRds: 'Télécharger pour RDS / Outlook classique',
+          rdsHelp: 'Utilisez la version RDS si le logo ou la bannière disparaissent lorsque vous ouvrez un nouveau message dans Outlook classique.',
+          rdsPreparing: 'Création du paquet RDS...',
+          rdsDownloaded: 'Paquet RDS téléchargé. Suivez le fichier INSTALLATION.txt dans le ZIP.',
+          rdsImageError: 'Les images n’ont pas pu être enregistrées localement. Vérifiez qu’elles sont visibles dans le navigateur et réessayez.',
+          preview: 'Aperçu sur fond blanc',
+          outlook: 'Dans Outlook 365 :',
+          help1: 'Cliquez sur <strong>Copier la signature</strong>.',
+          help2: 'Dans Outlook, allez dans <strong>Paramètres &gt; Comptes &gt; Signatures</strong>.',
+          help3: 'Créez une nouvelle signature, collez-la avec <strong>Ctrl+V</strong> et enregistrez.',
+          help4: 'Définissez-la pour les nouveaux messages et, si souhaité, pour les réponses.',
+          copied: 'Copié. Vous pouvez maintenant coller la signature dans Outlook.',
+          copyFail: 'La copie a échoué. Sélectionnez l’aperçu manuellement et utilisez Ctrl+C.',
+          downloaded: 'Fichier HTML téléchargé.',
+          route: 'Itinéraire'
+        }
+      };
+
+      const requestedLang = new URLSearchParams(window.location.search).get('lang');
+      let currentLang = requestedLang === 'fr' ? 'fr' : 'nl';
+
+      const defaultsNode = document.getElementById('default-config');
+      let bakedConfig = {};
+      try {
+        bakedConfig = JSON.parse(defaultsNode.textContent);
+      } catch (_) {
+        bakedConfig = {};
+      }
+
+      function getLocalConfig() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function detectPublicBaseUrl() {
+        try {
+          const path = window.location.pathname || '/';
+          const basePath = path.endsWith('/')
+            ? path
+            : path.slice(0, path.lastIndexOf('/') + 1);
+          return (window.location.origin + basePath).replace(/\/$/, '');
+        } catch (_) {
+          return '';
+        }
+      }
+
+      const isAdmin = new URLSearchParams(window.location.search).get('beheer') === '1';
+      const oldLocalConfig = isAdmin ? (getLocalConfig() || {}) : {};
+      let config = Object.assign({}, bakedConfig, oldLocalConfig);
+
+      // Compatibiliteit met de vorige Nederlandstalige versie.
+      if (oldLocalConfig.greeting && !oldLocalConfig.greetingNl) config.greetingNl = oldLocalConfig.greeting;
+      if (typeof oldLocalConfig.noticeEnabled === 'boolean' && typeof oldLocalConfig.noticeEnabledNl !== 'boolean') config.noticeEnabledNl = oldLocalConfig.noticeEnabled;
+      if (oldLocalConfig.noticeText && !oldLocalConfig.noticeTextNl) config.noticeTextNl = oldLocalConfig.noticeText;
+      if (typeof oldLocalConfig.bannerEnabled === 'boolean' && typeof oldLocalConfig.bannerEnabledNl !== 'boolean') config.bannerEnabledNl = oldLocalConfig.bannerEnabled;
+      if (oldLocalConfig.bannerImage && !oldLocalConfig.bannerImageNl) config.bannerImageNl = oldLocalConfig.bannerImage;
+      if (oldLocalConfig.bannerLink && !oldLocalConfig.bannerLinkNl) config.bannerLinkNl = oldLocalConfig.bannerLink;
+      if (oldLocalConfig.bannerAlt && !oldLocalConfig.bannerAltNl) config.bannerAltNl = oldLocalConfig.bannerAlt;
+      if (oldLocalConfig.websiteUrl && !oldLocalConfig.websiteUrlNl) config.websiteUrlNl = oldLocalConfig.websiteUrl;
+      if (oldLocalConfig.tagline && !oldLocalConfig.taglineNl) config.taglineNl = oldLocalConfig.tagline;
+
+      if (!config.siteBaseUrl) {
+        config.siteBaseUrl = detectPublicBaseUrl();
+      }
+
+      if (isAdmin) document.body.classList.add('admin-mode');
+
+      const uploadedAssets = { bannerNl: null, bannerFr: null, logo: null };
+
+      const els = {
+        name: document.getElementById('name'),
+        role: document.getElementById('role'),
+        mobile: document.getElementById('mobile'),
+        email: document.getElementById('email'),
+        userNoticeEnabled: document.getElementById('user-notice-enabled'),
+        userNoticeText: document.getElementById('user-notice-text'),
+        signature: document.getElementById('signature'),
+        copy: document.getElementById('copy'),
+        downloadSignature: document.getElementById('download-signature'),
+        downloadRds: document.getElementById('download-rds'),
+        rdsHelp: document.getElementById('rds-help'),
+        status: document.getElementById('status'),
+        adminStatus: document.getElementById('admin-status'),
+        langNl: document.getElementById('lang-nl'),
+        langFr: document.getElementById('lang-fr')
+      };
+
+      const adminFields = {
+        greetingNl: document.getElementById('admin-greeting-nl'),
+        greetingFr: document.getElementById('admin-greeting-fr'),
+        noticeEnabledNl: document.getElementById('admin-notice-enabled-nl'),
+        noticeTextNl: document.getElementById('admin-notice-text-nl'),
+        noticeEnabledFr: document.getElementById('admin-notice-enabled-fr'),
+        noticeTextFr: document.getElementById('admin-notice-text-fr'),
+        bannerEnabledNl: document.getElementById('admin-banner-enabled-nl'),
+        bannerImageNl: document.getElementById('admin-banner-image-nl'),
+        bannerLinkNl: document.getElementById('admin-banner-link-nl'),
+        bannerAltNl: document.getElementById('admin-banner-alt-nl'),
+        bannerEnabledFr: document.getElementById('admin-banner-enabled-fr'),
+        bannerImageFr: document.getElementById('admin-banner-image-fr'),
+        bannerLinkFr: document.getElementById('admin-banner-link-fr'),
+        bannerAltFr: document.getElementById('admin-banner-alt-fr'),
+        websiteText: document.getElementById('admin-website-text'),
+        websiteUrlNl: document.getElementById('admin-website-url-nl'),
+        websiteUrlFr: document.getElementById('admin-website-url-fr'),
+        siteBaseUrl: document.getElementById('admin-site-base-url'),
+        logoUrl: document.getElementById('admin-logo-url'),
+        taglineNl: document.getElementById('admin-tagline-nl'),
+        taglineFr: document.getElementById('admin-tagline-fr'),
+        address: document.getElementById('admin-address'),
+        mapsUrl: document.getElementById('admin-maps-url'),
+        companyPhone: document.getElementById('admin-company-phone'),
+        companyPhoneHref: document.getElementById('admin-company-phone-href'),
+        companyEmail: document.getElementById('admin-company-email'),
+        instagramUrl: document.getElementById('admin-instagram-url'),
+        facebookUrl: document.getElementById('admin-facebook-url'),
+        linkedinUrl: document.getElementById('admin-linkedin-url')
+      };
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function safeUrl(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,/i.test(raw)) return raw;
+        try {
+          const url = new URL(raw);
+          return (url.protocol === 'https:' || url.protocol === 'http:') ? escapeHtml(url.href) : '';
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function renderConfig() {
+        const cfg = Object.assign({}, config);
+        if (uploadedAssets.bannerNl) cfg.bannerImageNl = uploadedAssets.bannerNl.dataUrl;
+        if (uploadedAssets.bannerFr) cfg.bannerImageFr = uploadedAssets.bannerFr.dataUrl;
+        if (uploadedAssets.logo) cfg.logoUrl = uploadedAssets.logo.dataUrl;
+        return cfg;
+      }
+
+      function localized(cfg, base) {
+        return cfg[base + (currentLang === 'fr' ? 'Fr' : 'Nl')];
+      }
+
+      function applyLanguage(resetNotice) {
+        const t = uiText[currentLang];
+        document.documentElement.lang = currentLang;
+
+        document.getElementById('page-title').textContent = t.title;
+        document.getElementById('page-intro').textContent = t.intro;
+        document.getElementById('personal-heading').textContent = t.personalHeading;
+        document.getElementById('label-name').textContent = t.name;
+        document.getElementById('label-role').textContent = t.role;
+        document.getElementById('label-mobile').textContent = t.mobile;
+        document.getElementById('label-email').textContent = t.email;
+        document.getElementById('label-optional').textContent = t.optional;
+        document.getElementById('notice-heading').textContent = t.noticeHeading;
+        document.getElementById('notice-show-label').textContent = t.noticeShow;
+        document.getElementById('notice-text-label').textContent = t.noticeText;
+        document.getElementById('notice-help').textContent = t.noticeHelp;
+        els.copy.textContent = t.copy;
+        els.downloadSignature.textContent = t.download;
+        els.downloadRds.textContent = t.downloadRds;
+        els.rdsHelp.textContent = t.rdsHelp;
+        document.getElementById('preview-label').textContent = t.preview;
+        document.getElementById('outlook-help-title').textContent = t.outlook;
+        document.getElementById('help-step-1').innerHTML = t.help1;
+        document.getElementById('help-step-2').innerHTML = t.help2;
+        document.getElementById('help-step-3').innerHTML = t.help3;
+        document.getElementById('help-step-4').innerHTML = t.help4;
+
+        els.langNl.classList.toggle('active', currentLang === 'nl');
+        els.langFr.classList.toggle('active', currentLang === 'fr');
+
+        if (resetNotice !== false) {
+          const cfg = renderConfig();
+          els.userNoticeEnabled.checked = !!localized(cfg, 'noticeEnabled');
+          els.userNoticeText.value = localized(cfg, 'noticeText') || '';
+        }
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', currentLang);
+        history.replaceState(null, '', url);
+        render();
+      }
+
+      function phoneHref(value) {
+        let digits = String(value || '').replace(/[^0-9+]/g, '');
+        if (digits.startsWith('00')) digits = '+' + digits.slice(2);
+        if (digits.startsWith('0')) digits = '+32' + digits.slice(1);
+        return digits;
+      }
+
+      function addCacheBuster(url) {
+        const raw = String(url || '').trim();
+        if (!raw || raw.startsWith('data:')) return raw;
+        const separator = raw.includes('?') ? '&' : '?';
+        return raw + separator + 'v=' + Date.now();
+      }
+
+      function signatureHtml(imageOverrides, cacheBustImages) {
+        const cfg = renderConfig();
+        imageOverrides = imageOverrides || {};
+        cacheBustImages = !!cacheBustImages;
+        const name = escapeHtml(els.name.value.trim());
+        const role = escapeHtml(els.role.value.trim());
+        const mobile = escapeHtml(els.mobile.value.trim());
+        const phone = escapeHtml(phoneHref(els.mobile.value));
+        const emailRaw = els.email.value.trim();
+        const email = escapeHtml(emailRaw);
+
+        const notice = escapeHtml(els.userNoticeText.value || '').replace(/\n/g, '<br>');
+        const bannerSource = imageOverrides.bannerImage
+          ? imageOverrides.bannerImage
+          : localized(cfg, 'bannerImage');
+        const logoSource = imageOverrides.logoUrl
+          ? imageOverrides.logoUrl
+          : cfg.logoUrl;
+
+        const bannerImage = escapeHtml(
+          cacheBustImages ? addCacheBuster(bannerSource) : (safeUrl(bannerSource) || '')
+        );
+        const bannerLink = safeUrl(localized(cfg, 'bannerLink')) || safeUrl(localized(cfg, 'websiteUrl'));
+        const logoUrl = escapeHtml(
+          cacheBustImages ? addCacheBuster(logoSource) : (safeUrl(logoSource) || '')
+        );
+        const websiteUrl = safeUrl(localized(cfg, 'websiteUrl'));
+        const mapsUrl = safeUrl(cfg.mapsUrl);
+        const instagramUrl = safeUrl(cfg.instagramUrl);
+        const facebookUrl = safeUrl(cfg.facebookUrl);
+        const linkedinUrl = safeUrl(cfg.linkedinUrl);
+
+        const noticeBlock = els.userNoticeEnabled.checked && notice
+          ? '<tr><td style="padding:12px 0 4px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:20px; font-weight:700; color:#c92117;">' + notice + '</td></tr>'
+          : '';
+
+        const bannerBlock = localized(cfg, 'bannerEnabled') && bannerImage
+          ? '<tr><td style="padding:0 0 14px 0;">' +
+              '<a href="' + bannerLink + '" target="_blank" style="text-decoration:none;">' +
+                '<img src="' + bannerImage + '" width="630" alt="' + escapeHtml(localized(cfg, 'bannerAlt') || '') + '" border="0" style="display:block; width:630px; max-width:100%; height:auto; border:0; outline:none; text-decoration:none;">' +
+              '</a>' +
+            '</td></tr>'
+          : '';
+
+        const mobileBlock = mobile
+          ? '<tr><td style="padding:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:19px; color:#111111;">' +
+              '<strong style="font-weight:700;">M</strong>&nbsp; <a href="tel:' + phone + '" style="color:#111111; text-decoration:none;">' + mobile + '</a>' +
+            '</td></tr>'
+          : '';
+
+        const emailBlock = email
+          ? '<tr><td style="padding:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:19px; color:#111111;">' +
+              '<strong style="font-weight:700;">E</strong>&nbsp; <a href="mailto:' + email + '" style="color:#19382f; text-decoration:underline;">' + email + '</a>' +
+            '</td></tr>'
+          : '';
+
+        const logoBlock = logoUrl
+          ? '<a href="' + websiteUrl + '" target="_blank" style="text-decoration:none;">' +
+              '<img src="' + logoUrl + '" width="106" alt="La Buena Vida" border="0" style="display:block; width:106px; max-width:106px; height:auto; margin:0 auto; border:0; outline:none; text-decoration:none;">' +
+            '</a>'
+          : '<span style="font-family:Georgia,Times New Roman,serif; color:#ffffff; font-size:18px;">La Buena Vida</span>';
+
+        const socialLinks = [];
+        if (instagramUrl) socialLinks.push('<a href="' + instagramUrl + '" target="_blank" style="color:#747910; text-decoration:underline;">Instagram</a>');
+        if (facebookUrl) socialLinks.push('<a href="' + facebookUrl + '" target="_blank" style="color:#747910; text-decoration:underline;">Facebook</a>');
+        if (linkedinUrl) socialLinks.push('<a href="' + linkedinUrl + '" target="_blank" style="color:#747910; text-decoration:underline;">LinkedIn</a>');
+        if (mapsUrl) socialLinks.push('<a href="' + mapsUrl + '" target="_blank" style="color:#747910; text-decoration:underline;">' + uiText[currentLang].route + '</a>');
+
+        const socialBlock = socialLinks.length
+          ? '<div style="padding-top:9px; font-size:12px; line-height:17px; font-weight:700;">' +
+              socialLinks.join('<span style="color:#a9afa9;">&nbsp;&nbsp;·&nbsp;&nbsp;</span>') +
+            '</div>'
+          : '';
+
+        return '' +
+          '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="630" style="width:630px; max-width:630px; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial,Helvetica,sans-serif; color:#111111;">' +
+            '<tr>' +
+              '<td style="padding:0 0 12px 0; border-bottom:1px solid #9da39f; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:20px; color:#111111;">' +
+                '<strong style="font-weight:700;">' + escapeHtml(localized(cfg, 'greeting') || '') + '</strong><br>' +
+                '<strong style="font-weight:700;">' + name + '</strong><br>' +
+                '<span style="font-style:italic;">' + role + '</span>' +
+              '</td>' +
+            '</tr>' +
+            noticeBlock +
+            bannerBlock +
+            '<tr><td style="padding:0 0 14px 0;">' +
+              '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">' +
+                mobileBlock +
+                emailBlock +
+                '<tr><td style="padding:0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:19px; color:#111111;">' +
+                  '<strong style="font-weight:700;">W</strong>&nbsp; <a href="' + websiteUrl + '" target="_blank" style="color:#19382f; text-decoration:underline;">' + escapeHtml(cfg.websiteText || '') + '</a>' +
+                '</td></tr>' +
+              '</table>' +
+            '</td></tr>' +
+            '<tr><td style="padding:0;">' +
+              '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="630" style="width:630px; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; border-top:3px solid #747910;">' +
+                '<tr>' +
+                  '<td width="150" bgcolor="#19382f" valign="middle" align="center" style="width:150px; padding:18px 14px; background-color:#19382f; text-align:center; vertical-align:middle;">' +
+                    logoBlock +
+                  '</td>' +
+                  '<td width="480" valign="middle" style="width:480px; padding:15px 18px; background-color:#f6f7f4; vertical-align:middle; font-family:Arial,Helvetica,sans-serif; color:#25312b;">' +
+                    '<div style="font-size:15px; line-height:19px; font-weight:700; color:#19382f;">' + escapeHtml(localized(cfg, 'tagline') || '') + '</div>' +
+                    '<div style="padding-top:7px; font-size:13px; line-height:18px; color:#25312b;">' +
+                      '<a href="' + mapsUrl + '" target="_blank" style="color:#25312b; text-decoration:none;">' + escapeHtml(cfg.address || '') + '</a><br>' +
+                      '<a href="tel:' + escapeHtml(cfg.companyPhoneHref || '') + '" style="color:#25312b; text-decoration:none;">' + escapeHtml(cfg.companyPhone || '') + '</a>' +
+                      '<span style="color:#9aa19d;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>' +
+                      '<a href="mailto:' + escapeHtml(cfg.companyEmail || '') + '" style="color:#25312b; text-decoration:none;">' + escapeHtml(cfg.companyEmail || '') + '</a>' +
+                    '</div>' +
+                    socialBlock +
+                  '</td>' +
+                '</tr>' +
+              '</table>' +
+            '</td></tr>' +
+          '</table>';
+      }
+
+      function render() {
+        // Alleen de preview krijgt een unieke queryparameter.
+        // Daardoor wordt altijd de nieuwste banner/logo opgehaald.
+        // Kopiëren en downloaden blijven de vaste URL gebruiken.
+        els.signature.innerHTML = signatureHtml({}, true);
+        els.status.textContent = '';
+      }
+
+      function savePersonal() {
+        try {
+          localStorage.setItem(PERSONAL_KEY, JSON.stringify({
+            name: els.name.value,
+            role: els.role.value,
+            mobile: els.mobile.value,
+            email: els.email.value
+          }));
+        } catch (_) {}
+      }
+
+      function loadPersonal() {
+        try {
+          const p = JSON.parse(localStorage.getItem(PERSONAL_KEY) || 'null');
+          if (!p) return;
+          els.name.value = p.name || '';
+          els.role.value = p.role || '';
+          els.mobile.value = p.mobile || '';
+          els.email.value = p.email || '';
+        } catch (_) {}
+      }
+
+      function dataUrlFromBlob(blob) {
+        return new Promise(function (resolve, reject) {
+          const reader = new FileReader();
+          reader.onload = function () { resolve(reader.result); };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      function loadImageFromBlob(blob) {
+        return new Promise(function (resolve, reject) {
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = function () {
+            URL.revokeObjectURL(url);
+            resolve(img);
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(url);
+            reject(new Error('Afbeelding kon niet worden gelezen.'));
+          };
+          img.src = url;
+        });
+      }
+
+      async function convertImageBlob(blob, targetExt) {
+        const img = await loadImageFromBlob(blob);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+
+        const ctx = canvas.getContext('2d');
+
+        // JPEG ondersteunt geen transparantie. Voor banners gebruiken we een witte achtergrond.
+        if (targetExt === 'jpg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        ctx.drawImage(img, 0, 0);
+
+        const mime = targetExt === 'png' ? 'image/png' : 'image/jpeg';
+        const outBlob = await new Promise(function (resolve, reject) {
+          canvas.toBlob(function (result) {
+            if (result) resolve(result);
+            else reject(new Error('Afbeelding kon niet worden omgezet.'));
+          }, mime, targetExt === 'jpg' ? 0.92 : undefined);
+        });
+
+        return {
+          bytes: new Uint8Array(await outBlob.arrayBuffer()),
+          dataUrl: await dataUrlFromBlob(outBlob),
+          ext: targetExt
+        };
+      }
+
+      async function readImageFile(file, targetExt) {
+        if (!file) throw new Error('Geen bestand gekozen.');
+        if (!/^image\//i.test(file.type || '')) throw new Error('Kies een afbeeldingsbestand.');
+        const converted = await convertImageBlob(file, targetExt);
+        converted.file = file;
+        return converted;
+      }
+
+      async function fetchImageForPackage(source, targetExt) {
+        const raw = String(source || '').trim();
+        if (!raw) return null;
+
+        const response = await fetch(raw, { cache: 'no-store', credentials: 'omit' });
+        if (!response.ok) throw new Error('Bestaande afbeelding kon niet worden opgehaald.');
+
+        const blob = await response.blob();
+        if (!/^image\//i.test(blob.type || '')) {
+          throw new Error('Het bestaande afbeeldingsadres verwijst niet naar een afbeelding.');
+        }
+
+        return await convertImageBlob(blob, targetExt);
+      }
+
+      function normalizeBaseUrl(value) {
+        const raw = String(value || '').trim().replace(/\/+$/, '');
+        if (!raw) return '';
+        try {
+          const u = new URL(raw);
+          return (u.protocol === 'https:' || u.protocol === 'http:') ? u.href.replace(/\/+$/, '') : '';
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function fillAdminFields() {
+        Object.keys(adminFields).forEach(function (key) {
+          const el = adminFields[key];
+          if (!el) return;
+          if (el.type === 'checkbox') el.checked = !!config[key];
+          else el.value = config[key] == null ? '' : config[key];
+        });
+      }
+
+      function readAdminFields() {
+        const next = {};
+        Object.keys(adminFields).forEach(function (key) {
+          const el = adminFields[key];
+          if (!el) return;
+          next[key] = el.type === 'checkbox' ? el.checked : el.value.trim();
+        });
+        return next;
+      }
+
+      function applyAdminPreview() {
+        if (!isAdmin) return;
+        const next = readAdminFields();
+        config = Object.assign({}, config, next);
+
+        const textField = currentLang === 'fr' ? adminFields.noticeTextFr : adminFields.noticeTextNl;
+        const enabledField = currentLang === 'fr' ? adminFields.noticeEnabledFr : adminFields.noticeEnabledNl;
+
+        if (document.activeElement === textField) {
+          els.userNoticeText.value = localized(config, 'noticeText') || '';
+        }
+        if (document.activeElement === enabledField) {
+          els.userNoticeEnabled.checked = !!localized(config, 'noticeEnabled');
+        }
+
+        render();
+      }
+
+      async function copySignature() {
+        const html = signatureHtml();
+        const plain = els.signature.innerText;
+
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            const item = new ClipboardItem({
+              'text/html': new Blob([html], { type: 'text/html' }),
+              'text/plain': new Blob([plain], { type: 'text/plain' })
+            });
+            await navigator.clipboard.write([item]);
+            els.status.textContent = uiText[currentLang].copied;
+            return;
+          }
+        } catch (_) {}
+
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(els.signature);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+
+        selection.removeAllRanges();
+        els.status.textContent = ok
+          ? uiText[currentLang].copied
+          : uiText[currentLang].copyFail;
+      }
+
+
+      function sanitizeFilePart(value) {
+        return String(value || '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 60) || 'Medewerker';
+      }
+
+      function extensionFromContentType(type, url) {
+        const contentType = String(type || '').toLowerCase();
+        if (contentType.includes('png')) return 'png';
+        if (contentType.includes('webp')) return 'webp';
+        if (contentType.includes('gif')) return 'gif';
+        if (contentType.includes('jpeg') || contentType.includes('jpg')) return 'jpg';
+
+        try {
+          const path = new URL(url, window.location.href).pathname.toLowerCase();
+          const match = path.match(/\.(png|jpe?g|webp|gif)$/);
+          if (match) return match[1].replace('jpeg', 'jpg');
+        } catch (_) {}
+        return 'png';
+      }
+
+      async function imageBytesFromSource(source) {
+        const raw = String(source || '').trim();
+        if (!raw) return null;
+
+        const response = await fetch(raw, { cache: 'no-store', credentials: 'omit' });
+        if (!response.ok) throw new Error('Afbeelding kon niet worden opgehaald: ' + response.status);
+
+        const blob = await response.blob();
+        if (!/^image\//i.test(blob.type || '')) {
+          throw new Error('Het opgehaalde bestand is geen afbeelding.');
+        }
+
+        return {
+          bytes: new Uint8Array(await blob.arrayBuffer()),
+          ext: extensionFromContentType(blob.type, raw)
+        };
+      }
+
+      function plainSignatureText() {
+        const cfg = renderConfig();
+        const lines = [];
+        const greeting = localized(cfg, 'greeting') || '';
+        const name = els.name.value.trim();
+        const role = els.role.value.trim();
+        const mobile = els.mobile.value.trim();
+        const email = els.email.value.trim();
+
+        if (greeting) lines.push(greeting);
+        if (name) lines.push(name);
+        if (role) lines.push(role);
+        if (els.userNoticeEnabled.checked && els.userNoticeText.value.trim()) {
+          lines.push('', els.userNoticeText.value.trim());
+        }
+        lines.push('');
+        if (mobile) lines.push('M  ' + mobile);
+        if (email) lines.push('E  ' + email);
+        lines.push('W  ' + (cfg.websiteText || 'www.labuenavida.be'));
+        lines.push('');
+        lines.push(localized(cfg, 'tagline') || '');
+        lines.push(cfg.address || '');
+        lines.push((cfg.companyPhone || '') + '  |  ' + (cfg.companyEmail || ''));
+
+        return lines.filter(function (line, index, arr) {
+          return !(line === '' && index > 0 && arr[index - 1] === '');
+        }).join('\r\n');
+      }
+
+      function rtfEscape(value) {
+        return String(value || '')
+          .replace(/\\/g, '\\\\')
+          .replace(/\{/g, '\\{')
+          .replace(/\}/g, '\\}')
+          .replace(/\r?\n/g, '\\line ');
+      }
+
+      function makeRtfFallback() {
+        return '{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\fs20 ' +
+          rtfEscape(plainSignatureText()) +
+          '}';
+      }
+
+      function makeClassicOutlookHtml(signatureName, imageFolder, localLogo, localBanner) {
+        const overrides = {};
+        if (localLogo) overrides.logoUrl = imageFolder + '/' + localLogo;
+        if (localBanner) overrides.bannerImage = imageFolder + '/' + localBanner;
+
+        const body = signatureHtml(overrides, false);
+
+        return '<!DOCTYPE html>' +
+          '<html xmlns:v="urn:schemas-microsoft-com:vml" ' +
+          'xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+          'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+          'xmlns="http://www.w3.org/TR/REC-html40">' +
+          '<head>' +
+          '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
+          '<meta name="Generator" content="La Buena Vida Handtekeninggenerator">' +
+          '<title>' + escapeHtml(signatureName) + '</title>' +
+          '<style><!-- body{margin:0;padding:0;} --></style>' +
+          '</head>' +
+          '<body style="margin:0; padding:0; background:#ffffff;">' +
+          body +
+          '</body></html>';
+      }
+
+      function installationText(signatureName) {
+        if (currentLang === 'fr') {
+          return [
+            'INSTALLATION - RDS / OUTLOOK CLASSIQUE',
+            '',
+            'Cette version utilise des images locales afin qu’Outlook ne doive pas charger le logo et la bannière depuis Internet.',
+            '',
+            '1. Fermez complètement Outlook.',
+            '2. Décompressez ce fichier ZIP.',
+            '3. Appuyez sur Windows + R.',
+            '4. Saisissez : %APPDATA%\\Microsoft\\Signatures',
+            '5. Appuyez sur Entrée.',
+            '6. Copiez les fichiers "' + signatureName + '.htm", "' + signatureName + '.txt", "' + signatureName + '.rtf" ainsi que le dossier "' + signatureName + '_files" dans ce dossier Signatures.',
+            '7. Rouvrez Outlook.',
+            '8. Dans Outlook classique : Fichier > Options > Courrier > Signatures.',
+            '9. Choisissez "' + signatureName + '" pour les nouveaux messages et, si souhaité, pour les réponses.',
+            '',
+            'Important : cette méthode est prévue pour Outlook classique sous Windows/RDS. Elle ne s’applique pas au nouvel Outlook.',
+            'Ne renommez pas le dossier "_files", sinon les images ne seront plus trouvées.'
+          ].join('\r\n');
+        }
+
+        return [
+          'INSTALLATIE - RDS / CLASSIC OUTLOOK',
+          '',
+          'Deze versie gebruikt lokale afbeeldingen. Outlook hoeft het logo en de banner dus niet van internet te laden.',
+          '',
+          '1. Sluit Outlook volledig af.',
+          '2. Pak dit ZIP-bestand uit.',
+          '3. Druk op Windows + R.',
+          '4. Vul in: %APPDATA%\\Microsoft\\Signatures',
+          '5. Druk op Enter.',
+          '6. Kopieer "' + signatureName + '.htm", "' + signatureName + '.txt", "' + signatureName + '.rtf" én de map "' + signatureName + '_files" naar deze Signatures-map.',
+          '7. Open Outlook opnieuw.',
+          '8. Ga in Classic Outlook naar Bestand > Opties > E-mail > Handtekeningen.',
+          '9. Kies "' + signatureName + '" voor nieuwe berichten en eventueel ook voor antwoorden.',
+          '',
+          'Belangrijk: deze methode is bedoeld voor Classic Outlook op Windows/RDS. Ze geldt niet voor de nieuwe Outlook.',
+          'Hernoem de map "_files" niet, anders vindt Outlook de afbeeldingen niet meer.'
+        ].join('\r\n');
+      }
+
+      async function downloadRdsPackage() {
+        els.status.textContent = uiText[currentLang].rdsPreparing;
+
+        const cfg = renderConfig();
+        const signatureName = 'LBV - ' + sanitizeFilePart(els.name.value.trim());
+        const imageFolder = signatureName + '_files';
+        const entries = [];
+
+        try {
+          let localLogo = '';
+          let localBanner = '';
+
+          if (cfg.logoUrl) {
+            const logo = await imageBytesFromSource(cfg.logoUrl);
+            if (logo) {
+              localLogo = 'logo.' + logo.ext;
+              entries.push({ name: imageFolder + '/' + localLogo, data: logo.bytes });
+            }
+          }
+
+          if (localized(cfg, 'bannerEnabled') && localized(cfg, 'bannerImage')) {
+            const banner = await imageBytesFromSource(localized(cfg, 'bannerImage'));
+            if (banner) {
+              localBanner = 'banner.' + banner.ext;
+              entries.push({ name: imageFolder + '/' + localBanner, data: banner.bytes });
+            }
+          }
+
+          const html = makeClassicOutlookHtml(signatureName, imageFolder, localLogo, localBanner);
+          entries.unshift(
+            { name: signatureName + '.htm', data: html },
+            { name: signatureName + '.txt', data: plainSignatureText() },
+            { name: signatureName + '.rtf', data: makeRtfFallback() },
+            { name: 'INSTALLATIE.txt', data: installationText(signatureName) }
+          );
+
+          const zipBlob = makeZip(entries);
+          const url = URL.createObjectURL(zipBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'LBV-RDS-handtekening-' + sanitizeFilePart(els.name.value.trim()).replace(/\s+/g, '-') + '.zip';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+
+          els.status.textContent = uiText[currentLang].rdsDownloaded;
+        } catch (err) {
+          console.error(err);
+          els.status.textContent = uiText[currentLang].rdsImageError;
+        }
+      }
+
+      function downloadSignatureHtml() {
+        const documentHtml =
+          '<!doctype html><html lang="' + currentLang + '"><head><meta charset="utf-8"><title>La Buena Vida signature</title></head>' +
+          '<body style="margin:20px; background:#ffffff;">' + signatureHtml() + '</body></html>';
+
+        const blob = new Blob([documentHtml], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const fileName = (els.name.value.trim() || 'medewerker')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '');
+
+        a.href = url;
+        a.download = 'handtekening-' + fileName + '.html';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        els.status.textContent = uiText[currentLang].downloaded;
+      }
+
+      function saveAdminLocal() {
+        config = Object.assign({}, config, readAdminFields());
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+          els.adminStatus.textContent = 'Tekst en links zijn op dit toestel opgeslagen. Gekozen afbeeldingsbestanden worden pas meegenomen wanneer u het websitepakket downloadt.';
+          render();
+        } catch (_) {
+          els.adminStatus.textContent = 'Opslaan op dit toestel lukte niet.';
+        }
+      }
+
+      function resetAdminLocal() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        config = Object.assign({}, bakedConfig);
+        fillAdminFields();
+        els.userNoticeEnabled.checked = !!localized(config, 'noticeEnabled');
+        els.userNoticeText.value = localized(config, 'noticeText') || '';
+        render();
+        els.adminStatus.textContent = 'Lokale wijzigingen zijn gewist. De ingebakken versie wordt opnieuw gebruikt.';
+      }
+
+      function crc32(bytes) {
+        let crc = 0 ^ (-1);
+        for (let i = 0; i < bytes.length; i++) {
+          crc = (crc >>> 8) ^ crc32Table[(crc ^ bytes[i]) & 0xff];
+        }
+        return (crc ^ (-1)) >>> 0;
+      }
+
+      const crc32Table = (function () {
+        const table = new Uint32Array(256);
+        for (let n = 0; n < 256; n++) {
+          let c = n;
+          for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+        return table;
+      }());
+
+      function writeU16(view, offset, value) { view.setUint16(offset, value, true); }
+      function writeU32(view, offset, value) { view.setUint32(offset, value >>> 0, true); }
+
+      function dosDateTime(date) {
+        const d = date || new Date();
+        const year = Math.max(1980, d.getFullYear());
+        return {
+          time: ((d.getHours() & 31) << 11) | ((d.getMinutes() & 63) << 5) | ((Math.floor(d.getSeconds() / 2)) & 31),
+          date: (((year - 1980) & 127) << 9) | (((d.getMonth() + 1) & 15) << 5) | (d.getDate() & 31)
+        };
+      }
+
+      function makeZip(entries) {
+        const encoder = new TextEncoder();
+        const localParts = [];
+        const centralParts = [];
+        let localOffset = 0;
+        const stamp = dosDateTime(new Date());
+
+        entries.forEach(function (entry) {
+          const nameBytes = encoder.encode(entry.name);
+          const data = entry.data instanceof Uint8Array ? entry.data : encoder.encode(String(entry.data || ''));
+          const crc = crc32(data);
+
+          const local = new Uint8Array(30 + nameBytes.length + data.length);
+          const lv = new DataView(local.buffer);
+          writeU32(lv, 0, 0x04034b50);
+          writeU16(lv, 4, 20);
+          writeU16(lv, 6, 0x0800);
+          writeU16(lv, 8, 0);
+          writeU16(lv, 10, stamp.time);
+          writeU16(lv, 12, stamp.date);
+          writeU32(lv, 14, crc);
+          writeU32(lv, 18, data.length);
+          writeU32(lv, 22, data.length);
+          writeU16(lv, 26, nameBytes.length);
+          writeU16(lv, 28, 0);
+          local.set(nameBytes, 30);
+          local.set(data, 30 + nameBytes.length);
+          localParts.push(local);
+
+          const central = new Uint8Array(46 + nameBytes.length);
+          const cv = new DataView(central.buffer);
+          writeU32(cv, 0, 0x02014b50);
+          writeU16(cv, 4, 20);
+          writeU16(cv, 6, 20);
+          writeU16(cv, 8, 0x0800);
+          writeU16(cv, 10, 0);
+          writeU16(cv, 12, stamp.time);
+          writeU16(cv, 14, stamp.date);
+          writeU32(cv, 16, crc);
+          writeU32(cv, 20, data.length);
+          writeU32(cv, 24, data.length);
+          writeU16(cv, 28, nameBytes.length);
+          writeU16(cv, 30, 0);
+          writeU16(cv, 32, 0);
+          writeU16(cv, 34, 0);
+          writeU16(cv, 36, 0);
+          writeU32(cv, 38, 0);
+          writeU32(cv, 42, localOffset);
+          central.set(nameBytes, 46);
+          centralParts.push(central);
+
+          localOffset += local.length;
+        });
+
+        const centralSize = centralParts.reduce(function (sum, p) { return sum + p.length; }, 0);
+        const totalLocal = localParts.reduce(function (sum, p) { return sum + p.length; }, 0);
+        const end = new Uint8Array(22);
+        const ev = new DataView(end.buffer);
+        writeU32(ev, 0, 0x06054b50);
+        writeU16(ev, 4, 0);
+        writeU16(ev, 6, 0);
+        writeU16(ev, 8, entries.length);
+        writeU16(ev, 10, entries.length);
+        writeU32(ev, 12, centralSize);
+        writeU32(ev, 16, totalLocal);
+        writeU16(ev, 20, 0);
+
+        return new Blob(localParts.concat(centralParts).concat([end]), { type: 'application/zip' });
+      }
+
+      function makeExportHtml(finalConfig) {
+        const clone = document.documentElement.cloneNode(true);
+        const cloneDefaults = clone.querySelector('#default-config');
+        cloneDefaults.textContent = '\n' + JSON.stringify(finalConfig, null, 2) + '\n  ';
+
+        const cloneBody = clone.querySelector('body');
+        if (cloneBody) cloneBody.classList.remove('admin-mode');
+
+        ['name', 'role', 'mobile', 'email'].forEach(function (id) {
+          const input = clone.querySelector('#' + id);
+          if (input) {
+            input.setAttribute('value', '');
+            input.value = '';
+          }
+        });
+
+        const signatureNode = clone.querySelector('#signature');
+        if (signatureNode) signatureNode.innerHTML = '';
+        const statusNode = clone.querySelector('#status');
+        if (statusNode) statusNode.textContent = '';
+        const adminStatusNode = clone.querySelector('#admin-status');
+        if (adminStatusNode) adminStatusNode.textContent = '';
+
+        return '<!doctype html>\n' + clone.outerHTML;
+      }
+
+      async function exportWebsitePackage() {
+        config = Object.assign({}, config, readAdminFields());
+        const finalConfig = Object.assign({}, config);
+        const baseUrl = normalizeBaseUrl(finalConfig.siteBaseUrl || detectPublicBaseUrl());
+
+        if (!baseUrl) {
+          els.adminStatus.textContent = 'De publieke URL kon niet worden bepaald. Vul ze in bij de beheerinstellingen.';
+          return;
+        }
+
+        els.adminStatus.textContent = 'Websitepakket wordt gemaakt...';
+
+        try {
+          const entries = [];
+
+          // De online handtekening gebruikt altijd dezelfde vaste bestandsnamen.
+          // We proberen bestaande online afbeeldingen NIET opnieuw te downloaden.
+          // Dat voorkomt CORS- en toegangsproblemen.
+          if (finalConfig.bannerEnabledNl) {
+            finalConfig.bannerImageNl = baseUrl + '/banner-nl.jpg';
+          }
+          if (finalConfig.bannerEnabledFr) {
+            finalConfig.bannerImageFr = baseUrl + '/banner-fr.jpg';
+          }
+          finalConfig.logoUrl = baseUrl + '/logo.png';
+
+          // Alleen afbeeldingen die in deze beheersessie opnieuw gekozen zijn,
+          // worden mee in het ZIP-pakket gestoken.
+          if (uploadedAssets.bannerNl) {
+            entries.push({ name: 'banner-nl.jpg', data: uploadedAssets.bannerNl.bytes });
+          }
+          if (uploadedAssets.bannerFr) {
+            entries.push({ name: 'banner-fr.jpg', data: uploadedAssets.bannerFr.bytes });
+          }
+          if (uploadedAssets.logo) {
+            entries.push({ name: 'logo.png', data: uploadedAssets.logo.bytes });
+          }
+
+          const output = makeExportHtml(finalConfig);
+          entries.unshift({ name: 'index.html', data: output });
+
+          const zipBlob = makeZip(entries);
+          const url = URL.createObjectURL(zipBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'lbv-handtekening-generator.zip';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+
+          const included = [];
+          if (uploadedAssets.logo) included.push('logo.png');
+          if (uploadedAssets.bannerNl) included.push('banner-nl.jpg');
+          if (uploadedAssets.bannerFr) included.push('banner-fr.jpg');
+
+          els.adminStatus.textContent = included.length
+            ? 'Websitepakket gedownload. Mee opgenomen: ' + included.join(', ') + '. Upload index.html en deze bestanden naar GitHub.'
+            : 'Websitepakket gedownload. Alleen index.html is gewijzigd. Uw bestaande logo.png en banners op GitHub blijven behouden.';
+        } catch (err) {
+          console.error(err);
+          els.adminStatus.textContent = 'Het websitepakket kon niet worden gemaakt. Probeer de pagina te vernieuwen en opnieuw.';
+        }
+      }
+
+      loadPersonal();
+
+      // De centrale beheerinstelling is telkens de standaard bij het openen.
+      // De vertegenwoordiger kan ze daarna vrij aanpassen voor zijn eigen handtekening.
+      els.userNoticeEnabled.checked = !!localized(config, 'noticeEnabled');
+      els.userNoticeText.value = localized(config, 'noticeText') || '';
+
+      fillAdminFields();
+      applyLanguage(false);
+
+      [els.name, els.role, els.mobile, els.email].forEach(function (input) {
+        input.addEventListener('input', function () {
+          savePersonal();
+          render();
+        });
+      });
+
+      [els.userNoticeEnabled, els.userNoticeText].forEach(function (input) {
+        input.addEventListener('input', render);
+        input.addEventListener('change', render);
+      });
+
+      Object.keys(adminFields).forEach(function (key) {
+        const el = adminFields[key];
+        if (!el) return;
+        el.addEventListener('input', applyAdminPreview);
+        el.addEventListener('change', applyAdminPreview);
+      });
+
+      els.copy.addEventListener('click', copySignature);
+      els.downloadSignature.addEventListener('click', downloadSignatureHtml);
+      els.downloadRds.addEventListener('click', downloadRdsPackage);
+
+      els.langNl.addEventListener('click', function () {
+        currentLang = 'nl';
+        applyLanguage(true);
+      });
+
+      els.langFr.addEventListener('click', function () {
+        currentLang = 'fr';
+        applyLanguage(true);
+      });
+
+      if (isAdmin) {
+        document.getElementById('admin-banner-file-nl').addEventListener('change', async function (event) {
+          try {
+            uploadedAssets.bannerNl = await readImageFile(event.target.files[0], 'jpg');
+            config.bannerEnabledNl = true;
+            adminFields.bannerEnabledNl.checked = true;
+            const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
+            if (base) adminFields.bannerImageNl.value = base + '/banner-nl.jpg';
+            if (currentLang === 'nl') render();
+            els.adminStatus.textContent = 'Nederlandse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
+          } catch (err) {
+            els.adminStatus.textContent = err.message || 'Nederlandse banner laden lukte niet.';
+          }
+        });
+
+        document.getElementById('admin-banner-file-fr').addEventListener('change', async function (event) {
+          try {
+            uploadedAssets.bannerFr = await readImageFile(event.target.files[0], 'jpg');
+            config.bannerEnabledFr = true;
+            adminFields.bannerEnabledFr.checked = true;
+            const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
+            if (base) adminFields.bannerImageFr.value = base + '/banner-fr.jpg';
+            if (currentLang === 'fr') render();
+            els.adminStatus.textContent = 'Franse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
+          } catch (err) {
+            els.adminStatus.textContent = err.message || 'Franse banner laden lukte niet.';
+          }
+        });
+
+        document.getElementById('admin-logo-file').addEventListener('change', async function (event) {
+          try {
+            uploadedAssets.logo = await readImageFile(event.target.files[0], 'png');
+            const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
+            if (base) adminFields.logoUrl.value = base + '/logo.png';
+            render();
+            els.adminStatus.textContent = 'Logo geladen in de preview. Download daarna het websitepakket om het te publiceren.';
+          } catch (err) {
+            els.adminStatus.textContent = err.message || 'Logo laden lukte niet.';
+          }
+        });
+
+        document.getElementById('save-local').addEventListener('click', saveAdminLocal);
+        document.getElementById('export-index').addEventListener('click', exportWebsitePackage);
+        document.getElementById('reset-local').addEventListener('click', resetAdminLocal);
+      }
+    }());
+  </script>
+
+
+</body></html>
