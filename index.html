@@ -262,11 +262,11 @@
   "noticeEnabledFr": true,
   "noticeTextFr": "Cliquez sur la bannière et réservez pour notre VIP-tasting.",
   "bannerEnabledNl": true,
-  "bannerImageNl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-nl.jpg",
+  "bannerImageNl": "https://vidalabuenavida.github.io/labuenavida.githhub.io/vip-tasting-2026-nl.jpg",
   "bannerLinkNl": "https://www.labuenavida.be/exclusieve-eindejaarsdegustatie-2026",
   "bannerAltNl": "VIP-tasting 2026, 29 en 30 november",
   "bannerEnabledFr": true,
-  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/banner-fr.jpg",
+  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/vip-tasting-2026-fr.jpg",
   "bannerLinkFr": "https://www.labuenavida.be/fr/exclusieve-eindejaarsdegustatie-2026",
   "bannerAltFr": "VIP-tasting 2026, 29 et 30 novembre",
   "websiteText": "www.labuenavida.be",
@@ -356,13 +356,13 @@
     <section class="panel admin-panel admin-only">
       <h2>Beheer vaste gegevens</h2>
       <div style="display:inline-block; margin:-6px 0 14px 0; padding:5px 9px; border-radius:999px; background:#eef1ef; color:#19382f; font-size:12px; font-weight:700;">
-        Versie 2.3 – standaardversie
+        Versie 2.5 – dynamische bannernamen
       </div>
 
       <div class="admin-note" style="margin-top:0; margin-bottom:20px;">
         <strong>Belangrijk:</strong> kies uw logo en desgewenst een aparte NL- en FR-banner als bestanden. De preview toont telkens de gekozen taal.
-        Bij publicatie krijgen de afbeeldingen altijd dezelfde vaste naam: <strong>logo.png</strong>, <strong>banner-nl.jpg</strong> en <strong>banner-fr.jpg</strong>.
-        Daardoor blijven bestaande online handtekeningen naar dezelfde afbeeldings-URL verwijzen. De preview gebruikt automatisch een cache refresh, zodat na een wijziging meteen de nieuwste afbeelding wordt opgehaald.
+        Bij publicatie behoudt een nieuwe banner zijn eigen bestandsnaam. Daardoor krijgt elke nieuwe banner ook een nieuwe URL en kan Outlook geen vorige banner uit de cache blijven tonen.
+        Het logo blijft wel onder de vaste naam <strong>logo.png</strong> staan. De preview gebruikt daarnaast automatisch een cache refresh.
         Klik daarna op <strong>Websitepakket downloaden</strong> en upload de nieuwe <strong>index.html</strong> en eventuele nieuwe afbeeldingen naar GitHub.
         Pak die ZIP uit en upload de bestanden rechtstreeks naar de hoofdmap van GitHub. De afbeeldingen staan dan op GitHub Pages zelf en werken ook buiten deze browser.
       </div>
@@ -499,7 +499,7 @@
     (function () {
       'use strict';
 
-      const APP_VERSION = '2.3-standard';
+      const APP_VERSION = '2.5-dynamic-banner-names';
       const STORAGE_KEY = 'lbv_signature_admin_config_v1';
       const PERSONAL_KEY = 'lbv_signature_personal_v1';
 
@@ -949,11 +949,40 @@
         };
       }
 
+      function safeAssetFileName(fileName, targetExt, fallbackName) {
+        const raw = String(fileName || '').trim();
+        const withoutExt = raw.replace(/\.[^.]+$/, '');
+        const base = (withoutExt || fallbackName || 'banner')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-zA-Z0-9_-]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .toLowerCase() || (fallbackName || 'banner');
+
+        return base + '.' + targetExt;
+      }
+
+      function fileNameFromUrl(url, targetExt, fallbackName) {
+        try {
+          const path = new URL(String(url || ''), window.location.href).pathname;
+          const rawName = decodeURIComponent(path.split('/').pop() || '');
+          if (!rawName) return (fallbackName || 'banner') + '.' + targetExt;
+          return safeAssetFileName(rawName, targetExt, fallbackName);
+        } catch (_) {
+          return (fallbackName || 'banner') + '.' + targetExt;
+        }
+      }
+
       async function readImageFile(file, targetExt) {
         if (!file) throw new Error('Geen bestand gekozen.');
         if (!/^image\//i.test(file.type || '')) throw new Error('Kies een afbeeldingsbestand.');
         const converted = await convertImageBlob(file, targetExt);
         converted.file = file;
+        converted.publicFileName = safeAssetFileName(
+          file.name,
+          targetExt,
+          targetExt === 'png' ? 'logo' : 'banner'
+        );
         return converted;
       }
 
@@ -1765,21 +1794,29 @@
           // De online handtekening gebruikt altijd dezelfde vaste bestandsnamen.
           // We proberen bestaande online afbeeldingen NIET opnieuw te downloaden.
           // Dat voorkomt CORS- en toegangsproblemen.
-          if (finalConfig.bannerEnabledNl) {
-            finalConfig.bannerImageNl = baseUrl + '/banner-nl.jpg';
+          if (finalConfig.bannerEnabledNl && uploadedAssets.bannerNl) {
+            const bannerNlName = uploadedAssets.bannerNl.publicFileName ||
+              safeAssetFileName(uploadedAssets.bannerNl.file && uploadedAssets.bannerNl.file.name, 'jpg', 'banner-nl');
+            finalConfig.bannerImageNl = baseUrl + '/' + encodeURIComponent(bannerNlName);
           }
-          if (finalConfig.bannerEnabledFr) {
-            finalConfig.bannerImageFr = baseUrl + '/banner-fr.jpg';
+          if (finalConfig.bannerEnabledFr && uploadedAssets.bannerFr) {
+            const bannerFrName = uploadedAssets.bannerFr.publicFileName ||
+              safeAssetFileName(uploadedAssets.bannerFr.file && uploadedAssets.bannerFr.file.name, 'jpg', 'banner-fr');
+            finalConfig.bannerImageFr = baseUrl + '/' + encodeURIComponent(bannerFrName);
           }
           finalConfig.logoUrl = baseUrl + '/logo.png';
 
           // Alleen afbeeldingen die in deze beheersessie opnieuw gekozen zijn,
           // worden mee in het ZIP-pakket gestoken.
           if (uploadedAssets.bannerNl) {
-            entries.push({ name: 'banner-nl.jpg', data: uploadedAssets.bannerNl.bytes });
+            const bannerNlName = uploadedAssets.bannerNl.publicFileName ||
+              safeAssetFileName(uploadedAssets.bannerNl.file && uploadedAssets.bannerNl.file.name, 'jpg', 'banner-nl');
+            entries.push({ name: bannerNlName, data: uploadedAssets.bannerNl.bytes });
           }
           if (uploadedAssets.bannerFr) {
-            entries.push({ name: 'banner-fr.jpg', data: uploadedAssets.bannerFr.bytes });
+            const bannerFrName = uploadedAssets.bannerFr.publicFileName ||
+              safeAssetFileName(uploadedAssets.bannerFr.file && uploadedAssets.bannerFr.file.name, 'jpg', 'banner-fr');
+            entries.push({ name: bannerFrName, data: uploadedAssets.bannerFr.bytes });
           }
           if (uploadedAssets.logo) {
             entries.push({ name: 'logo.png', data: uploadedAssets.logo.bytes });
@@ -1804,7 +1841,7 @@
           if (uploadedAssets.bannerFr) included.push('banner-fr.jpg');
 
           els.adminStatus.textContent = included.length
-            ? 'Websitepakket gedownload. Mee opgenomen: ' + included.join(', ') + '. Upload index.html en deze bestanden naar GitHub.'
+            ? 'Websitepakket gedownload. Mee opgenomen: ' + included.join(', ') + '. Upload index.html en deze bestanden naar GitHub. Nieuwe banners behouden hun eigen bestandsnaam.'
             : 'Websitepakket gedownload. Alleen index.html is gewijzigd. Uw bestaande logo.png en banners op GitHub blijven behouden.';
         } catch (err) {
           console.error(err);
@@ -1858,10 +1895,15 @@
         document.getElementById('admin-banner-file-nl').addEventListener('change', async function (event) {
           try {
             uploadedAssets.bannerNl = await readImageFile(event.target.files[0], 'jpg');
+            uploadedAssets.bannerNl.publicFileName =
+              safeAssetFileName(event.target.files[0].name, 'jpg', 'banner-nl');
             config.bannerEnabledNl = true;
             adminFields.bannerEnabledNl.checked = true;
             const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
-            if (base) adminFields.bannerImageNl.value = base + '/banner-nl.jpg';
+            if (base) {
+              adminFields.bannerImageNl.value =
+                base + '/' + encodeURIComponent(uploadedAssets.bannerNl.publicFileName);
+            }
             if (currentLang === 'nl') render();
             els.adminStatus.textContent = 'Nederlandse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
           } catch (err) {
@@ -1872,10 +1914,15 @@
         document.getElementById('admin-banner-file-fr').addEventListener('change', async function (event) {
           try {
             uploadedAssets.bannerFr = await readImageFile(event.target.files[0], 'jpg');
+            uploadedAssets.bannerFr.publicFileName =
+              safeAssetFileName(event.target.files[0].name, 'jpg', 'banner-fr');
             config.bannerEnabledFr = true;
             adminFields.bannerEnabledFr.checked = true;
             const base = normalizeBaseUrl(adminFields.siteBaseUrl.value);
-            if (base) adminFields.bannerImageFr.value = base + '/banner-fr.jpg';
+            if (base) {
+              adminFields.bannerImageFr.value =
+                base + '/' + encodeURIComponent(uploadedAssets.bannerFr.publicFileName);
+            }
             if (currentLang === 'fr') render();
             els.adminStatus.textContent = 'Franse banner geladen in de preview. Download daarna het websitepakket om hem te publiceren.';
           } catch (err) {
