@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl"><head>
+<html lang="fr"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Buena Vida | Outlook-handtekening</title>
@@ -266,7 +266,7 @@
   "bannerLinkNl": "https://www.labuenavida.be/exclusieve-eindejaarsdegustatie-2026",
   "bannerAltNl": "VIP-tasting 2026, 29 en 30 november",
   "bannerEnabledFr": true,
-  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/vip-tasting-handtekening-fr.jpg",
+  "bannerImageFr": "https://vidalabuenavida.github.io/labuenavida.githhub.io/vip-tasting-handtekening-fr-2.jpg",
   "bannerLinkFr": "https://www.labuenavida.be/fr/exclusieve-eindejaarsdegustatie-2026",
   "bannerAltFr": "VIP-tasting 2026, 29 et 30 novembre",
   "websiteText": "www.labuenavida.be",
@@ -290,64 +290,64 @@
 <body class="">
   <main class="page">
     <div class="intro">
-      <h1 id="page-title">Outlook-handtekening</h1>
-      <p id="page-intro">Vul uw persoonlijke gegevens in, controleer het voorbeeld en kopieer de handtekening naar Outlook.</p>
+      <h1 id="page-title">Signature Outlook</h1>
+      <p id="page-intro">Complétez vos coordonnées, vérifiez l’aperçu et copiez la signature dans Outlook.</p>
       <div class="language-switch" aria-label="Taal / Langue">
-        <button type="button" id="lang-nl" class="active">NL</button>
-        <button type="button" id="lang-fr">FR</button>
+        <button type="button" id="lang-nl" class="">NL</button>
+        <button type="button" id="lang-fr" class="active">FR</button>
       </div>
     </div>
 
     <div class="workspace">
       <aside class="panel settings">
         <div class="section">
-          <h2 id="personal-heading">Persoonlijke gegevens</h2>
-          <label><span id="label-name">Naam</span>
+          <h2 id="personal-heading">Coordonnées personnelles</h2>
+          <label><span id="label-name">Nom</span>
             <input id="name" type="text" placeholder="Voornaam Naam" autocomplete="name" value="">
           </label>
-          <label><span id="label-role">Functie</span>
+          <label><span id="label-role">Fonction</span>
             <input id="role" type="text" placeholder="Functie" value="">
           </label>
-          <label><span id="label-mobile">Gsm-nummer</span>
+          <label><span id="label-mobile">GSM</span>
             <input id="mobile" type="text" placeholder="04xx xx xx xx" autocomplete="tel" value="">
           </label>
-          <label><span id="label-email">E-mailadres</span> <span id="label-optional" style="font-weight:400; color:#78817d;">(optioneel)</span>
+          <label><span id="label-email">Adresse e-mail</span> <span id="label-optional" style="font-weight:400; color:#78817d;">(facultatif)</span>
             <input id="email" type="email" autocomplete="email" placeholder="naam@labuenavida.be" value="">
           </label>
         </div>
 
         <div class="section">
-          <h2 id="notice-heading">Vrije melding</h2>
+          <h2 id="notice-heading">Message libre</h2>
           <label class="check">
             <input id="user-notice-enabled" type="checkbox">
-            <span id="notice-show-label">Melding tonen</span>
+            <span id="notice-show-label">Afficher le message</span>
           </label>
-          <label><span id="notice-text-label">Tekst</span>
+          <label><span id="notice-text-label">Texte</span>
             <textarea id="user-notice-text" placeholder="Typ hier een tijdelijke melding..."></textarea>
           </label>
-          <p class="small" id="notice-help">De beheerder bepaalt de standaardtekst. U kunt die hier aanpassen voor uw eigen handtekening.</p>
+          <p class="small" id="notice-help">L’administrateur définit le texte standard. Vous pouvez l’adapter pour votre propre signature.</p>
         </div>
 
         <div class="actions">
-          <button class="primary" id="copy" type="button">Kopieer handtekening</button>
-<button class="secondary" id="download-signature" type="button">Download losse HTML</button>
+          <button class="primary" id="copy" type="button">Copier la signature</button>
+<button class="secondary" id="download-signature" type="button">Télécharger le HTML</button>
         </div>
         <div class="status" id="status" aria-live="polite"></div>
       </aside>
 
       <section class="panel preview-panel">
-        <div class="preview-label" id="preview-label">Voorbeeld op witte achtergrond</div>
+        <div class="preview-label" id="preview-label">Aperçu sur fond blanc</div>
         <div class="signature-shell">
           <div id="signature"></div>
         </div>
 
         <div class="help">
-          <strong id="outlook-help-title">In Outlook 365:</strong>
+          <strong id="outlook-help-title">Dans Outlook 365 :</strong>
           <ol>
-            <li id="help-step-1">Klik op <strong>Kopieer handtekening</strong>.</li>
-            <li id="help-step-2">Ga in Outlook naar <strong>Instellingen &gt; Accounts &gt; Handtekeningen</strong>.</li>
-            <li id="help-step-3">Maak een nieuwe handtekening, plak met <strong>Ctrl+V</strong> en bewaar.</li>
-            <li id="help-step-4">Stel ze in voor nieuwe berichten en, indien gewenst, voor antwoorden.</li>
+            <li id="help-step-1">Cliquez sur <strong>Copier la signature</strong>.</li>
+            <li id="help-step-2">Dans Outlook, allez dans <strong>Paramètres &gt; Comptes &gt; Signatures</strong>.</li>
+            <li id="help-step-3">Créez une nouvelle signature, collez-la avec <strong>Ctrl+V</strong> et enregistrez.</li>
+            <li id="help-step-4">Définissez-la pour les nouveaux messages et, si souhaité, pour les réponses.</li>
           </ol>
         </div>
       </section>
